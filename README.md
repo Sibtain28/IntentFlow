@@ -1,89 +1,132 @@
 # IntentFlow
 
-IntentFlow is a technical platform for capturing and structured processing of AI-driven search intent. It enables users to intercept conversational data from AI search providers (ChatGPT, Claude, Perplexity, Grok), transform them into deterministic campaign trees, and perform systematic SEO analysis.
+IntentFlow is a platform for capturing and organizing AI-driven search intent. It allows you to save conversations from AI tools, turn them into structured maps, and analyze them for SEO and marketing insights.
 
-The system is built as a monorepo consisting of a Chrome extension for real-time capture, a React web application for multi-dimensional analysis, and a Node.js backend for high-volume data persistence and enrichment.
+The system includes a Chrome extension for capturing chats, a web dashboard for analysis, and a backend for storing data and fetching SEO metrics.
+
+## System Architecture
+
+```mermaid
+graph TD
+    subgraph "Client Side"
+        Ext[Chrome Extension]
+        Web[Web Dashboard]
+    end
+
+    subgraph "AI Tools"
+        GPT[ChatGPT]
+        Cld[Claude]
+        Prp[Perplexity]
+        Grk[Grok]
+    end
+
+    subgraph "Backend"
+        API[Express API]
+        Q[Task Queue]
+        DB[(Database)]
+    end
+
+    subgraph "SEO Integrations"
+        SM[Semrush]
+        AH[Ahrefs]
+    end
+
+    Ext -- Captures Chats --> GPT & Cld & Prp & Grk
+    Ext -- Saves to --> API
+    Web -- Views & Manages --> API
+    API -- Database --> DB
+    API -- Enrichment --> Q
+    Q -- Fetch Stats --> SM & AH
+```
+
+---
 
 ## Core Features
 
-### Multi-Surface Capture
-A Chrome extension (Manifest V3) that utilizes a side-panel interface to intercept and aggregate streams from:
-- ChatGPT (chatgpt.com / chat.openai.com)
-- Claude (claude.ai)
-- Perplexity (perplexity.ai)
-- Grok (grok.com)
+### Live Chat Capture
+A Chrome extension (Manifest V3) that runs in a side panel. it captures conversation threads from AI providers like ChatGPT, Claude, Perplexity, and Grok as you chat.
 
-### Deterministic Tree Mapping
-Raw conversational turns are processed into a structured hierarchical model:
-1. **Prompt Root**: The user's initial or primary query.
-2. **Subqueries**: Identifiable search or processing segments within the AI's response.
-3. **Sites & Evidence**: Linked sources and domains cited by the AI, mapped to their respective subqueries.
+### Conversation Mapping
+The system automatically turns raw chats into a structured tree:
+1. **User Prompt**: The main question or instruction.
+2. **Sub-Steps**: The logical sections or search tasks the AI performed.
+3. **Sites & Sources**: The websites the AI visited or cited, organized by topic.
 
-### Versioned Campaign Management
-Store and manage captured intent sessions as Campaigns. Each campaign can have multiple versions, allowing for:
-- **Sequential Refire**: Replaying a prompt series across multiple providers to monitor result drift.
-- **Lineage Preservation**: Tracking the evolution of prompts through capture and modification cycles.
-
-### Data Enrichment & Analytics
-- **Queue-Based Enrichment**: Background workers utilize BullMQ and Redis to fetch SEO data from Semrush and Ahrefs.
-- **Lead Intelligence**: Extraction of lead signals and scoring based on capture turn context.
-- **3-Panel Workspace**: Analysis UI designed for drilling from Prompts to Subqueries to Website Evidence.
+### Campaign Management
+Organize your research into Campaigns and Versions.
+- **Multi-Provider Replay**: Re-run your prompts across different AI tools to compare results.
+- **Search History**: Track how your prompts and AI responses change over time.
 
 ---
 
-## Technical Architecture
+## Technical Stack
 
-| Workspace | Technology |
+| Part | Technology |
 | :--- | :--- |
-| **Backend** | Node.js, Express, Prisma ORM (PostgreSQL), BullMQ (Redis), Zod |
-| **Web App** | React 19, Vite, Tailwind CSS, XYFlow (Tree Visualization) |
-| **Extension** | React, CRXJS, Chrome scripting & sidePanel APIs |
-| **Tasks** | Node.js background processors |
+| **Backend** | Node.js, Express, Prisma (PostgreSQL), BullMQ (Redis) |
+| **Web App** | React, Vite, Tailwind CSS, Tree Visualization (XYFlow) |
+| **Extension** | React, Chrome Extension API (Manifest V3) |
 
 ---
 
-## Setup and Installation
+## Developer Setup
 
 ### Prerequisites
-- Node.js (18+)
-- pnpm
-- PostgreSQL
-- Redis (for task queues)
+- Node.js (18+) & pnpm
+- PostgreSQL (Database)
+- Redis (For background tasks)
 
-### 1. Repository Installation
+### 1. Installation
 ```bash
 git clone https://github.com/amogharajsandur/IntentFlow.git
 cd IntentFlow
 pnpm install
 ```
 
-### 2. Backend Configuration
-Create a `.env` file in the `backend/` directory:
-```bash
-DATABASE_URL="postgresql://user:pass@localhost:5432/intentflow"
-JWT_SECRET="your-secret-key"
-REDIS_URL="redis://localhost:6379"
-```
+### 2. Configuration
+Create a `.env` file in the `backend/` folder:
 
-### 3. Database Initialization
+| Key | Description | Required |
+| :--- | :--- | :--- |
+| `DATABASE_URL` | PostgreSQL connection link | Yes |
+| `REDIS_URL` | Redis connection link | Yes |
+| `JWT_SECRET` | Security key for user sessions | Yes |
+| `OPENAI_API_KEY` | For AI-based suggestions | Optional |
+| `SEMRUSH_URL` | For SEO keyword data | Optional |
+| `AHREFS_URL` | For site traffic data | Optional |
+
+### 3. Start Developing
 ```bash
 cd backend
 npx prisma generate
 npx prisma db push
+pnpm dev # Starts the API and background workers
 ```
 
 ---
 
-## Workspace Development
+## How It Works (Data Flow)
 
-- **Backend**: `cd backend && pnpm dev` (Runs API and Workers)
-- **Web App**: `cd web && pnpm dev` (Vite dev server)
-- **Extension**: `cd extension && pnpm dev` (Builds to `dist/` with HMR)
+1. **Capture**: The extension listens to the data coming from AI tools like ChatGPT.
+2. **Save**: The extension sends the conversation to the backend.
+3. **Process**: The backend breaks the chat down into prompts, sub-queries, and cited websites.
+4. **Enrich**: For cited websites, background tasks fetch SEO metrics (like Traffic or Difficulty).
+5. **View**: Designers and SEOs can view the results in the web dashboard or as a visual tree.
 
 ---
 
-## Key Terms
-- **CaptureTurn**: A single prompt-response exchange between a user and an AI provider.
-- **PromptNode**: A materialized element of the tree (Prompt, Subquery, or Site).
-- **Refire**: The process of re-executing captured prompts to generate a new Campaign Version.
-- **Signals**: Extracted intelligence gathered from conversation context.
+## Common Scripts
+
+| Task | Backend | Web App | Extension |
+| :--- | :--- | :--- | :--- |
+| **Start Dev** | `pnpm dev` | `pnpm dev` | `pnpm dev` |
+| **Build Project** | `pnpm build` | `pnpm build` | `pnpm build` |
+| **Database Sync** | `pnpm prisma:push` | N/A | N/A |
+
+---
+
+## Troubleshooting
+
+- **Extension Not Connecting**: Make sure the web app URL is added to the extension's allowed hosts in `manifest.json`.
+- **Tasks Not Running**: Check if Redis is active. Background jobs will wait until the worker starts.
+- **Re-running Prompts**: The backend records the intent to re-run, but the extension actually opens the tabs to execute them.
