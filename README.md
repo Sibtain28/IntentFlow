@@ -1,144 +1,89 @@
-IntentFlow
+# IntentFlow
 
-IntentFlow is a full-stack platform that captures real-time AI search intent and transforms it into actionable, versioned marketing insights.
+IntentFlow is a technical platform for capturing and structured processing of AI-driven search intent. It enables users to intercept conversational data from AI search providers (ChatGPT, Claude, Perplexity, Grok), transform them into deterministic campaign trees, and perform systematic SEO analysis.
 
-It combines a web app + Chrome extension + backend system to track, analyze, and optimize AI-driven search behavior across conversations.
+The system is built as a monorepo consisting of a Chrome extension for real-time capture, a React web application for multi-dimensional analysis, and a Node.js backend for high-volume data persistence and enrichment.
 
-✨ Key Features
-🔍 Capture live AI chat intent from conversations
-🌳 Map queries into campaign-version trees
-🔁 Compare results using refire-based versioning
-📊 Enrich data with SEO keyword intelligence (Semrush, Ahrefs)
-💬 Maintain chat-thread history across providers
-⚡ Execute prompts across multiple AI providers
-📈 Visual dashboards for insights & performance tracking
-🧠 Why IntentFlow?
+## Core Features
 
-AI search is changing how users discover content.
+### Multi-Surface Capture
+A Chrome extension (Manifest V3) that utilizes a side-panel interface to intercept and aggregate streams from:
+- ChatGPT (chatgpt.com / chat.openai.com)
+- Claude (claude.ai)
+- Perplexity (perplexity.ai)
+- Grok (grok.com)
 
-IntentFlow helps you:
+### Deterministic Tree Mapping
+Raw conversational turns are processed into a structured hierarchical model:
+1. **Prompt Root**: The user's initial or primary query.
+2. **Subqueries**: Identifiable search or processing segments within the AI's response.
+3. **Sites & Evidence**: Linked sources and domains cited by the AI, mapped to their respective subqueries.
 
-Understand what users are actually asking AI
-Track how intent evolves over time
-Optimize campaigns based on real conversational data
-🏗️ Project Structure
+### Versioned Campaign Management
+Store and manage captured intent sessions as Campaigns. Each campaign can have multiple versions, allowing for:
+- **Sequential Refire**: Replaying a prompt series across multiple providers to monitor result drift.
+- **Lineage Preservation**: Tracking the evolution of prompts through capture and modification cycles.
 
-Based on your repo folders:
+### Data Enrichment & Analytics
+- **Queue-Based Enrichment**: Background workers utilize BullMQ and Redis to fetch SEO data from Semrush and Ahrefs.
+- **Lead Intelligence**: Extraction of lead signals and scoring based on capture turn context.
+- **3-Panel Workspace**: Analysis UI designed for drilling from Prompts to Subqueries to Website Evidence.
 
-intentflow/
-│
-├── backend/        # Node.js backend (APIs, processing, integrations)
-├── web/            # Frontend web app (dashboard, UI)
-├── extension/      # Chrome extension (captures AI chat intent)
-├── tasks/          # Background jobs, workflows, or processing logic
-│
-├── CLAUDE.md       # AI prompt/context configs
-├── context.md      # Project-level context or documentation
-└── .gitignore
-🔄 How It Works
-User interacts with AI (ChatGPT, etc.)
-        ↓
-Chrome Extension captures queries
-        ↓
-Backend processes & structures intent
-        ↓
-SEO enrichment (Semrush / Ahrefs)
-        ↓
-Stored as campaign-version tree
-        ↓
-Web dashboard visualizes insights
-🧩 System Architecture
-[ Chrome Extension ]
-        ↓
-[ Node.js Backend ] ───► [ SEO APIs (Semrush/Ahrefs) ]
-        ↓
-[ Database / Processing Layer ]
-        ↓
-[ Web App Dashboard ]
-🛠️ Tech Stack
+---
 
-Frontend
+## Technical Architecture
 
-React / Next.js (assumed from structure)
-TailwindCSS (optional)
+| Workspace | Technology |
+| :--- | :--- |
+| **Backend** | Node.js, Express, Prisma ORM (PostgreSQL), BullMQ (Redis), Zod |
+| **Web App** | React 19, Vite, Tailwind CSS, XYFlow (Tree Visualization) |
+| **Extension** | React, CRXJS, Chrome scripting & sidePanel APIs |
+| **Tasks** | Node.js background processors |
 
-Backend
+---
 
-Node.js
-Express / API Layer
+## Setup and Installation
 
-Extension
+### Prerequisites
+- Node.js (18+)
+- pnpm
+- PostgreSQL
+- Redis (for task queues)
 
-Chrome Extension APIs
-Content Scripts for capturing AI chats
+### 1. Repository Installation
+```bash
+git clone https://github.com/amogharajsandur/IntentFlow.git
+cd IntentFlow
+pnpm install
+```
 
-Integrations
+### 2. Backend Configuration
+Create a `.env` file in the `backend/` directory:
+```bash
+DATABASE_URL="postgresql://user:pass@localhost:5432/intentflow"
+JWT_SECRET="your-secret-key"
+REDIS_URL="redis://localhost:6379"
+```
 
-Semrush API
-Ahrefs API
-Multi-AI providers (OpenAI, etc.)
-⚙️ Setup & Installation
-1️⃣ Clone the Repository
-git clone https://github.com/your-username/intentflow.git
-cd intentflow
-2️⃣ Install Dependencies
-# Backend
-cd backend && npm install
-
-# Web
-cd ../web && npm install
-
-# Extension (if needed)
-cd ../extension
-3️⃣ Environment Variables
-
-Create .env in backend:
-
-OPENAI_API_KEY=your_key
-SEMRUSH_API_KEY=your_key
-AHREFS_API_KEY=your_key
-DATABASE_URL=your_db_url
-4️⃣ Run the Project
-# Backend
+### 3. Database Initialization
+```bash
 cd backend
-npm run dev
+npx prisma generate
+npx prisma db push
+```
 
-# Frontend
-cd web
-npm run dev
-🔁 Core Concepts
-🧭 Intent Capture
+---
 
-Tracks real user prompts from AI chats.
+## Workspace Development
 
-🌳 Campaign Trees
+- **Backend**: `cd backend && pnpm dev` (Runs API and Workers)
+- **Web App**: `cd web && pnpm dev` (Vite dev server)
+- **Extension**: `cd extension && pnpm dev` (Builds to `dist/` with HMR)
 
-Groups related queries into structured marketing flows.
+---
 
-🔄 Refire Versioning
-
-Re-run prompts and compare outcomes over time.
-
-📊 Enrichment
-
-Adds keyword data (volume, difficulty, etc.).
-
-🔌 Extensibility
-Add new AI providers
-Plug in additional SEO tools
-Improve intent clustering
-Add analytics dashboards
-Automate campaign optimization
-🤝 Contributing
-Fork the repo
-
-Create a branch
-
-git checkout -b feature/your-feature
-Commit changes
-Push and open a Pull Request
-📌 Future Improvements
-🔮 AI-based intent clustering
-📊 Advanced analytics dashboards
-⚡ Real-time campaign recommendations
-🌐 Multi-language support
+## Key Terms
+- **CaptureTurn**: A single prompt-response exchange between a user and an AI provider.
+- **PromptNode**: A materialized element of the tree (Prompt, Subquery, or Site).
+- **Refire**: The process of re-executing captured prompts to generate a new Campaign Version.
+- **Signals**: Extracted intelligence gathered from conversation context.
