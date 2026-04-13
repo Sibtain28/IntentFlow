@@ -1,132 +1,144 @@
-# IntentFlow
+IntentFlow
 
-IntentFlow is a platform for capturing and organizing AI-driven search intent. It allows you to save conversations from AI tools, turn them into structured maps, and analyze them for SEO and marketing insights.
+IntentFlow is a full-stack platform that captures real-time AI search intent and transforms it into actionable, versioned marketing insights.
 
-The system includes a Chrome extension for capturing chats, a web dashboard for analysis, and a backend for storing data and fetching SEO metrics.
+It combines a web app + Chrome extension + backend system to track, analyze, and optimize AI-driven search behavior across conversations.
 
-## System Architecture
+✨ Key Features
+🔍 Capture live AI chat intent from conversations
+🌳 Map queries into campaign-version trees
+🔁 Compare results using refire-based versioning
+📊 Enrich data with SEO keyword intelligence (Semrush, Ahrefs)
+💬 Maintain chat-thread history across providers
+⚡ Execute prompts across multiple AI providers
+📈 Visual dashboards for insights & performance tracking
+🧠 Why IntentFlow?
 
-```mermaid
-graph TD
-    subgraph "Client Side"
-        Ext[Chrome Extension]
-        Web[Web Dashboard]
-    end
+AI search is changing how users discover content.
 
-    subgraph "AI Tools"
-        GPT[ChatGPT]
-        Cld[Claude]
-        Prp[Perplexity]
-        Grk[Grok]
-    end
+IntentFlow helps you:
 
-    subgraph "Backend"
-        API[Express API]
-        Q[Task Queue]
-        DB[(Database)]
-    end
+Understand what users are actually asking AI
+Track how intent evolves over time
+Optimize campaigns based on real conversational data
+🏗️ Project Structure
 
-    subgraph "SEO Integrations"
-        SM[Semrush]
-        AH[Ahrefs]
-    end
+Based on your repo folders:
 
-    Ext -- Captures Chats --> GPT & Cld & Prp & Grk
-    Ext -- Saves to --> API
-    Web -- Views & Manages --> API
-    API -- Database --> DB
-    API -- Enrichment --> Q
-    Q -- Fetch Stats --> SM & AH
-```
+intentflow/
+│
+├── backend/        # Node.js backend (APIs, processing, integrations)
+├── web/            # Frontend web app (dashboard, UI)
+├── extension/      # Chrome extension (captures AI chat intent)
+├── tasks/          # Background jobs, workflows, or processing logic
+│
+├── CLAUDE.md       # AI prompt/context configs
+├── context.md      # Project-level context or documentation
+└── .gitignore
+🔄 How It Works
+User interacts with AI (ChatGPT, etc.)
+        ↓
+Chrome Extension captures queries
+        ↓
+Backend processes & structures intent
+        ↓
+SEO enrichment (Semrush / Ahrefs)
+        ↓
+Stored as campaign-version tree
+        ↓
+Web dashboard visualizes insights
+🧩 System Architecture
+[ Chrome Extension ]
+        ↓
+[ Node.js Backend ] ───► [ SEO APIs (Semrush/Ahrefs) ]
+        ↓
+[ Database / Processing Layer ]
+        ↓
+[ Web App Dashboard ]
+🛠️ Tech Stack
 
----
+Frontend
 
-## Core Features
+React / Next.js (assumed from structure)
+TailwindCSS (optional)
 
-### Live Chat Capture
-A Chrome extension (Manifest V3) that runs in a side panel. it captures conversation threads from AI providers like ChatGPT, Claude, Perplexity, and Grok as you chat.
+Backend
 
-### Conversation Mapping
-The system automatically turns raw chats into a structured tree:
-1. **User Prompt**: The main question or instruction.
-2. **Sub-Steps**: The logical sections or search tasks the AI performed.
-3. **Sites & Sources**: The websites the AI visited or cited, organized by topic.
+Node.js
+Express / API Layer
 
-### Campaign Management
-Organize your research into Campaigns and Versions.
-- **Multi-Provider Replay**: Re-run your prompts across different AI tools to compare results.
-- **Search History**: Track how your prompts and AI responses change over time.
+Extension
 
----
+Chrome Extension APIs
+Content Scripts for capturing AI chats
 
-## Technical Stack
+Integrations
 
-| Part | Technology |
-| :--- | :--- |
-| **Backend** | Node.js, Express, Prisma (PostgreSQL), BullMQ (Redis) |
-| **Web App** | React, Vite, Tailwind CSS, Tree Visualization (XYFlow) |
-| **Extension** | React, Chrome Extension API (Manifest V3) |
+Semrush API
+Ahrefs API
+Multi-AI providers (OpenAI, etc.)
+⚙️ Setup & Installation
+1️⃣ Clone the Repository
+git clone https://github.com/your-username/intentflow.git
+cd intentflow
+2️⃣ Install Dependencies
+# Backend
+cd backend && npm install
 
----
+# Web
+cd ../web && npm install
 
-## Developer Setup
+# Extension (if needed)
+cd ../extension
+3️⃣ Environment Variables
 
-### Prerequisites
-- Node.js (18+) & pnpm
-- PostgreSQL (Database)
-- Redis (For background tasks)
+Create .env in backend:
 
-### 1. Installation
-```bash
-git clone https://github.com/amogharajsandur/IntentFlow.git
-cd IntentFlow
-pnpm install
-```
-
-### 2. Configuration
-Create a `.env` file in the `backend/` folder:
-
-| Key | Description | Required |
-| :--- | :--- | :--- |
-| `DATABASE_URL` | PostgreSQL connection link | Yes |
-| `REDIS_URL` | Redis connection link | Yes |
-| `JWT_SECRET` | Security key for user sessions | Yes |
-| `OPENAI_API_KEY` | For AI-based suggestions | Optional |
-| `SEMRUSH_URL` | For SEO keyword data | Optional |
-| `AHREFS_URL` | For site traffic data | Optional |
-
-### 3. Start Developing
-```bash
+OPENAI_API_KEY=your_key
+SEMRUSH_API_KEY=your_key
+AHREFS_API_KEY=your_key
+DATABASE_URL=your_db_url
+4️⃣ Run the Project
+# Backend
 cd backend
-npx prisma generate
-npx prisma db push
-pnpm dev # Starts the API and background workers
-```
+npm run dev
 
----
+# Frontend
+cd web
+npm run dev
+🔁 Core Concepts
+🧭 Intent Capture
 
-## How It Works (Data Flow)
+Tracks real user prompts from AI chats.
 
-1. **Capture**: The extension listens to the data coming from AI tools like ChatGPT.
-2. **Save**: The extension sends the conversation to the backend.
-3. **Process**: The backend breaks the chat down into prompts, sub-queries, and cited websites.
-4. **Enrich**: For cited websites, background tasks fetch SEO metrics (like Traffic or Difficulty).
-5. **View**: Designers and SEOs can view the results in the web dashboard or as a visual tree.
+🌳 Campaign Trees
 
----
+Groups related queries into structured marketing flows.
 
-## Common Scripts
+🔄 Refire Versioning
 
-| Task | Backend | Web App | Extension |
-| :--- | :--- | :--- | :--- |
-| **Start Dev** | `pnpm dev` | `pnpm dev` | `pnpm dev` |
-| **Build Project** | `pnpm build` | `pnpm build` | `pnpm build` |
-| **Database Sync** | `pnpm prisma:push` | N/A | N/A |
+Re-run prompts and compare outcomes over time.
 
----
+📊 Enrichment
 
-## Troubleshooting
+Adds keyword data (volume, difficulty, etc.).
 
-- **Extension Not Connecting**: Make sure the web app URL is added to the extension's allowed hosts in `manifest.json`.
-- **Tasks Not Running**: Check if Redis is active. Background jobs will wait until the worker starts.
-- **Re-running Prompts**: The backend records the intent to re-run, but the extension actually opens the tabs to execute them.
+🔌 Extensibility
+Add new AI providers
+Plug in additional SEO tools
+Improve intent clustering
+Add analytics dashboards
+Automate campaign optimization
+🤝 Contributing
+Fork the repo
+
+Create a branch
+
+git checkout -b feature/your-feature
+Commit changes
+Push and open a Pull Request
+📌 Future Improvements
+🔮 AI-based intent clustering
+📊 Advanced analytics dashboards
+⚡ Real-time campaign recommendations
+🌐 Multi-language support
