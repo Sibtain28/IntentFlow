@@ -1,5 +1,3 @@
-Here is a comprehensive, production-ready `README.md` synthesized from the technical report.
-
 ```markdown
 # IntentFlow
 ### AI SEO Intelligence Platform
