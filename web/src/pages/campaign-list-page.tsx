@@ -62,12 +62,15 @@ import {
   DialogTitle,
 } from '@/shared/components/ui/dialog';
 import { D3CardFrame } from '@/shared/components/d3/D3CardFrame';
+import { FunnelChart } from '@/features/analytics/charts/FunnelChart';
+import { HeatmapChart } from '@/features/analytics/charts/HeatmapChart';
 import { ScatterOpportunityChart } from '@/features/analytics/charts/ScatterOpportunityChart';
 import { StackedBarChart } from '@/features/analytics/charts/StackedBarChart';
 import { TimelineStripChart } from '@/features/analytics/charts/TimelineStripChart';
 import { RankBarChart } from '@/features/analytics/charts/RankBarChart';
 import { usePromptAnalytics } from '@/features/analytics/hooks/usePromptAnalytics';
 import { useWebsiteAnalytics } from '@/features/analytics/hooks/useWebsiteAnalytics';
+import { usePipelineAnalytics } from '@/features/analytics/hooks/usePipelineAnalytics';
 import { analytics_api } from '@/shared/lib/analytics';
 import chatgptLogo from '/chatgpt.svg';
 import claudeLogo from '/claude.svg';
@@ -528,6 +531,11 @@ export default function CampaignListPage() {
     selected_version_id,
     analytics_range,
     website_tab_active,
+  );
+  const { data: pipeline_analytics, loading: pipeline_analytics_loading } = usePipelineAnalytics(
+    id,
+    selected_version_id,
+    analytics_range,
   );
 
   const website_table_rows = useMemo(() => {
@@ -1386,8 +1394,26 @@ export default function CampaignListPage() {
       </div>
 
       <Tabs value={campaign_tab} className="flex min-h-0 flex-1 flex-col">
-        <TabsContent value="pipeline" className="mt-0 min-h-0 flex-1">
-          <div className="flex h-full min-h-0 flex-col gap-2 p-2 md:flex-row">
+        <TabsContent value="pipeline" className="mt-0 min-h-0 flex-1 flex flex-col gap-2 p-2">
+          <div className="grid grid-cols-1 gap-2 xl:grid-cols-2 shrink-0">
+             <D3CardFrame title="Execution Funnel" subtitle="suggested to websites" heightClassName="h-[160px]" rightSlot={pipeline_analytics_loading ? <Loader2 className="h-3.5 w-3.5 animate-spin text-muted-foreground" /> : null}>
+               <FunnelChart
+                 steps={[
+                   { key: 'suggested', label: 'Suggested', value: pipeline_analytics?.funnel.suggested ?? 0 },
+                   { key: 'selected', label: 'Selected', value: pipeline_analytics?.funnel.selected ?? 0 },
+                   { key: 'fired', label: 'Fired', value: pipeline_analytics?.funnel.fired ?? 0 },
+                   { key: 'completed', label: 'Completed', value: pipeline_analytics?.funnel.executed_completed ?? 0 },
+                   { key: 'websites', label: 'Websites', value: pipeline_analytics?.funnel.websites_fetched ?? 0 },
+                 ]}
+               />
+             </D3CardFrame>
+             <D3CardFrame title="Execution Rhythm" subtitle="activity heatmap" heightClassName="h-[160px]" rightSlot={pipeline_analytics_loading ? <Loader2 className="h-3.5 w-3.5 animate-spin text-muted-foreground" /> : null}>
+               <HeatmapChart
+                 bins={pipeline_analytics?.execution_rhythm ?? []}
+               />
+             </D3CardFrame>
+          </div>
+          <div className="flex min-h-0 flex-1 flex-col gap-2 md:flex-row">
         <div className={`min-h-0 w-full transition-all duration-200 ease-out ${pipeline_details_open ? (pipeline_queries_open ? 'md:w-4/12' : 'md:w-6/12') : 'md:w-full'}`}>
           <div className="flex h-full min-h-0 flex-col rounded-lg border border-slate-200/90 bg-white/90 p-2.5 shadow-sm dark:border-border/70 dark:bg-background/85">
             <div className="mb-2 flex items-center justify-between">
