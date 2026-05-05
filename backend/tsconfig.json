@@ -12,13 +12,17 @@
     "types": ["node", "express"],
     "baseUrl": "src",
     "paths": {
-      "@config/*": ["config/*"],
-      "@core/*": ["core/*"],
-      "@loaders/*": ["loaders/*"],
+      "@app/*": ["app/*"],
+      "@config/*": ["app/config/*"],
+      "@loaders/*": ["app/loaders/*"],
       "@modules/*": ["modules/*"],
-      "@middlewares/*": ["middlewares/*"],
-      "@utils/*": ["utils/*"],
-      "@types/*": ["types/*"]
+      "@infrastructure/*": ["infrastructure/*"],
+      "@queue/*": ["infrastructure/queue/*"],
+      "@shared/*": ["shared/*"],
+      "@core/*": ["shared/core/*"],
+      "@middlewares/*": ["shared/middlewares/*"],
+      "@utils/*": ["shared/utils/*"],
+      "@types/*": ["shared/types/*"]
     }
   },
   "include": ["src"],

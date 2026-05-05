@@ -1,7 +1,7 @@
 import { Router, Request, Response, RequestHandler } from 'express';
-import { authMiddleware } from '../../middlewares/auth.middleware';
-import { requireRole } from '../../middlewares/require-role.middleware';
-import { AuthenticatedRequest } from '../../types/express';
+import { authMiddleware } from '../../shared/middlewares/auth.middleware';
+import { requireRole } from '../../shared/middlewares/require-role.middleware';
+import { AuthenticatedRequest } from '../../shared/types/express';
 import { analyticsService } from './analytics.service';
 import { analyticsEventSchema } from './dto/analytics.dto';
 

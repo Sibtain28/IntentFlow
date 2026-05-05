@@ -1,9 +1,9 @@
 import { Response } from 'express';
 
-import { ApiResponse } from '../../core/api-response';
-import { BaseController } from '../../core/controller';
-import { HttpException } from '../../core/http-exception';
-import { AuthenticatedRequest } from '../../types/express';
+import { ApiResponse } from '../../shared/core/api-response';
+import { BaseController } from '../../shared/core/controller';
+import { HttpException } from '../../shared/core/http-exception';
+import { AuthenticatedRequest } from '../../shared/types/express';
 import { bootstrapOnboardingSchema } from './dto/bootstrap-onboarding.dto';
 import { OnboardingService, onboardingService } from './onboarding.service';
 

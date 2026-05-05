@@ -1,6 +1,6 @@
 import { randomUUID } from 'crypto';
 
-import { BaseRepository } from '../../core/repository';
+import { BaseRepository } from '../../shared/core/repository';
 import { Example } from './example.model';
 import { CreateExampleDto } from './dto/create-example.dto';
 

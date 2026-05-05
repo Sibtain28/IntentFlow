@@ -10,7 +10,7 @@
         "default_title": "Open AI SEO Sidebar"
     },
     "background": {
-        "service_worker": "src/background.ts",
+        "service_worker": "src/background/index.ts",
         "type": "module"
     },
     "content_scripts": [
@@ -20,7 +20,7 @@
                 "https://chat.openai.com/*"
             ],
             "js": [
-                "src/content/chatgptStreamContent.ts"
+                "src/content-scripts/chatgpt/streamContent.ts"
             ],
             "run_at": "document_start"
         },
@@ -30,7 +30,7 @@
                 "https://chat.openai.com/*"
             ],
             "js": [
-                "src/content/chatgptStreamMain.ts"
+                "src/content-scripts/chatgpt/streamMain.ts"
             ],
             "run_at": "document_start",
             "world": "MAIN"
@@ -40,7 +40,7 @@
                 "https://claude.ai/*"
             ],
             "js": [
-                "src/content/claudeStreamContent.ts"
+                "src/content-scripts/claude/streamContent.ts"
             ],
             "run_at": "document_start"
         },
@@ -49,7 +49,7 @@
                 "https://claude.ai/*"
             ],
             "js": [
-                "src/content/claudeStreamMain.ts"
+                "src/content-scripts/claude/streamMain.ts"
             ],
             "run_at": "document_start",
             "world": "MAIN"
@@ -60,7 +60,7 @@
                 "https://perplexity.ai/*"
             ],
             "js": [
-                "src/content/perplexityStreamContent.ts"
+                "src/content-scripts/perplexity/streamContent.ts"
             ],
             "run_at": "document_start"
         },
@@ -70,7 +70,7 @@
                 "https://perplexity.ai/*"
             ],
             "js": [
-                "src/content/perplexityStreamMain.ts"
+                "src/content-scripts/perplexity/streamMain.ts"
             ],
             "run_at": "document_start",
             "world": "MAIN"
@@ -81,7 +81,7 @@
                 "https://www.grok.com/*"
             ],
             "js": [
-                "src/content/grokStreamContent.ts"
+                "src/content-scripts/grok/streamContent.ts"
             ],
             "run_at": "document_start"
         },
@@ -91,7 +91,7 @@
                 "https://www.grok.com/*"
             ],
             "js": [
-                "src/content/grokStreamMain.ts"
+                "src/content-scripts/grok/streamMain.ts"
             ],
             "run_at": "document_start",
             "world": "MAIN"
@@ -104,7 +104,7 @@
                 "http://127.0.0.1:4173/*"
             ],
             "js": [
-                "src/content/webAppBridgeContent.ts"
+                "src/content-scripts/web-bridge/webAppBridge.ts"
             ],
             "run_at": "document_start"
         }

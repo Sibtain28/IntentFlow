@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import { campaignController } from './campaign.controller';
-import { authMiddleware } from '../../middlewares/auth.middleware';
+import { authMiddleware } from '../../shared/middlewares/auth.middleware';
 
 const router = Router();
 

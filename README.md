@@ -89,19 +89,78 @@ IntentFlow is a **monorepo** containing three independently deployable surfaces 
 
 ## Project Structure
 
+The repo is a flat monorepo: `backend/`, `web/`, and `extension/` are siblings at the project root. Each app follows the same broad pattern — bootstrap/runtime wiring under `app/`, domain logic under `modules/` or `features/`, runtime adapters under `infrastructure/` (where applicable), and reusable primitives under `shared/`.
+
 ```text
 intentflow/
-├── apps/
-│   ├── backend/          # Express API + Prisma + BullMQ workers
-│   ├── web/              # React 19 dashboard (Vite)
-│   └── extension/        # Chrome MV3 extension
-├── packages/
-│   ├── shared-types/     # Cross-surface TypeScript contracts
-│   └── ui/               # Shared component library (shadcn/radix)
-├── prisma/
-│   └── schema.prisma     # Single source of truth for DB schema
-└── pnpm-workspace.yaml
+├── backend/                       # Node.js + Express + Prisma + BullMQ
+│   ├── prisma/                    # Prisma schema + migrations
+│   ├── scripts/                   # Operational scripts (seed, backfill, admin bootstrap)
+│   └── src/
+│       ├── app/                   # Bootstrap & wiring
+│       │   ├── server.ts          # Process entry (started by `npm run dev` / `start`)
+│       │   ├── app.ts             # Express factory
+│       │   ├── index.ts           # Public type re-exports
+│       │   ├── config/            # Env loading + typed config object
+│       │   └── loaders/           # Database + Express loaders chained on boot
+│       ├── modules/               # Feature domains (Routes → Controller → Service → Repository)
+│       │   ├── account/  auth/  campaign/  domain/  user/
+│       │   ├── analytics/  onboarding/  example/
+│       │   └── lead-intelligence/
+│       ├── infrastructure/        # External-system adapters
+│       │   └── queue/             # BullMQ queues, workers, SEMrush/Ahrefs clients
+│       └── shared/                # Cross-cutting primitives
+│           ├── core/              # BaseController/BaseService/BaseRepository, ApiResponse, HttpException
+│           ├── middlewares/       # auth, RBAC, request-logger, error
+│           ├── types/             # Ambient .d.ts (express, cors)
+│           └── utils/             # logger, prisma, bcrypt, tokens, telemetry
+│
+├── web/                           # React 19 + Vite dashboard
+│   └── src/
+│       ├── main.tsx               # Vite entry (referenced by index.html)
+│       ├── index.css              # Global styles
+│       ├── app/                   # App shell
+│       │   ├── App.tsx            # Router composition
+│       │   ├── App.css            # App-level styles
+│       │   └── app-layout.tsx     # Authenticated shell + outlet context
+│       ├── features/              # Domain features (each owns its pages/components/hooks)
+│       │   ├── admin/             # admin dashboard, users, events, signals + AdminRoute guard
+│       │   ├── analytics/         # charts/ + hooks/ for dashboard/prompt/website analytics
+│       │   ├── auth/              # sign-in, auth-callback, extension-connect
+│       │   ├── campaigns/         # campaign list/graph/layout pages + chat history & dialogs
+│       │   ├── dashboard/         # main dashboard page
+│       │   ├── onboarding/        # onboarding flow
+│       │   └── workspace/         # workspace/domain selection
+│       └── shared/                # Reusable UI/hooks/lib
+│           ├── components/        # ui/ (shadcn primitives), d3/ (chart frame), layouts/
+│           ├── hooks/             # use-mobile, use-project-data, use-web-analytics
+│           └── lib/               # auth client, analytics client, utils
+│
+└── extension/                     # Chrome MV3 extension (Vite + CRXJS)
+    ├── manifest.json              # Background + content-script registration
+    └── src/
+        ├── main.tsx               # Side-panel entry (referenced by index.html)
+        ├── index.css              # Side-panel styles
+        ├── background/            # Service worker orchestration
+        │   └── index.ts           # Manifest service_worker target
+        ├── content-scripts/       # Per-provider stream interception (registered in manifest)
+        │   ├── chatgpt/   claude/   perplexity/   grok/
+        │   │   ├── streamContent.ts   # ISOLATED-world relay
+        │   │   └── streamMain.ts      # MAIN-world fetch/SSE patch
+        │   └── web-bridge/        # Web app ↔ extension bridge for localhost dev
+        ├── ui/                    # Side-panel React surface
+        │   ├── App.tsx            # Hash router + protected routes
+        │   ├── pages/             # AuthPage, Dashboard, WorkflowPage, etc.
+        │   ├── components/        # Header, badges, ui/ shadcn primitives
+        │   └── hooks/             # use-extension-analytics
+        └── shared/                # Cross-runtime primitives (background + content + UI)
+            ├── lib/               # api client, auth, provider-stream-registry, workflow VM
+            └── data/              # mock fixtures
 ```
+
+### Path Aliases
+
+Every app exposes a single `@/*` (web, extension) or richer namespaced aliases (`@app/*`, `@modules/*`, `@infrastructure/*`, `@shared/*` — backend) so cross-folder imports remain stable as files move within the new layout.
 
 ---
 
@@ -181,7 +240,7 @@ IntentFlow leverages TypeScript's full OOP capabilities:
 - **Singleton Pattern**: Services and controllers are instantiated once at module load to prevent redundant DB connections.
 - **Dependency Injection**: `CampaignService` receives its repository via constructor injection, enabling isolated unit testing with mock repositories.
 - **Factory Pattern**: `ApiResponse` factory standardizes all controller response envelopes.
-- **Strategy Pattern**: Each AI provider implements a distinct content-script strategy (`chatgptStreamContent.ts`, `claudeStreamContent.ts`, etc.) behind a uniform event-posting contract.
+- **Strategy Pattern**: Each AI provider implements a distinct content-script strategy under `extension/src/content-scripts/<provider>/` (`chatgpt/streamContent.ts`, `claude/streamContent.ts`, etc.) behind a uniform event-posting contract.
 
 ---
 
@@ -204,20 +263,22 @@ cd intentflow
 pnpm install
 
 # 3. Configure environment variables
-cp apps/backend/.env.example apps/backend/.env
+cp backend/.env.example backend/.env
 # Edit .env with your DATABASE_URL, REDIS_URL, JWT_SECRET, and API keys.
 
 # 4. Run database migrations
-pnpm --filter backend prisma migrate dev
+cd backend && npx prisma migrate dev && cd ..
 
-# 5. Start development servers
-pnpm dev
+# 5. Start each surface in its own terminal
+cd backend && npm run dev      # Express API on :3500
+cd web && npm run dev          # Vite dashboard on :5173
+cd extension && npm run build  # Build, then load `extension/dist/` unpacked
 ```
 
 ### Development URLs
 - **Web Dashboard**: `http://localhost:5173`
-- **Backend API**: `http://localhost:3000`
-- **Extension**: Load `apps/extension/dist/` as an unpacked extension in `chrome://extensions`.
+- **Backend API**: `http://localhost:3500`
+- **Extension**: Load `extension/dist/` as an unpacked extension in `chrome://extensions`.
 
 ---
 

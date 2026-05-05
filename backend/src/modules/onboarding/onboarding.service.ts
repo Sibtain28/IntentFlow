@@ -1,5 +1,5 @@
-import { BaseService } from '../../core/service';
-import { HttpException } from '../../core/http-exception';
+import { BaseService } from '../../shared/core/service';
+import { HttpException } from '../../shared/core/http-exception';
 import { BootstrapOnboardingDto } from './dto/bootstrap-onboarding.dto';
 import { OnboardingContextPayload } from './onboarding.model';
 import { onboardingRepository, OnboardingRepository } from './onboarding.repository';

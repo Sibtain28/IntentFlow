@@ -1,7 +1,7 @@
 import { User } from '@prisma/client';
 
-import { BaseRepository } from '../../core/repository';
-import { prisma } from '../../utils/prisma';
+import { BaseRepository } from '../../shared/core/repository';
+import { prisma } from '../../shared/utils/prisma';
 import { CreateUserDto } from './dto/create-user.dto';
 
 export class UserRepository extends BaseRepository {

@@ -1,19 +1,21 @@
 {
   "name": "enterprise-express-backend-template",
   "version": "1.0.0",
-  "main": "dist/server.js",
-  "types": "dist/index.d.ts",
+  "main": "dist/app/server.js",
+  "types": "dist/app/index.d.ts",
   "scripts": {
-    "dev": "ts-node-dev --respawn --transpile-only src/server.ts",
+    "dev": "ts-node-dev --respawn --transpile-only src/app/server.ts",
     "build": "tsc",
-    "start": "node dist/server.js",
+    "start": "node dist/app/server.js",
     "lint": "eslint \"src/**/*.{ts,tsx}\"",
     "prisma:generate": "prisma generate",
     "prisma:migrate": "prisma migrate dev",
     "prisma:push": "prisma db push",
-    "backfill:account-domain": "ts-node-dev --transpile-only --exit-child scripts/backfill-account-domain.ts"
+    "backfill:account-domain": "ts-node-dev --transpile-only --exit-child scripts/backfill-account-domain.ts",
+    "seed:dummy-user": "ts-node-dev --transpile-only --exit-child scripts/seed-dummy-user.ts"
   },
   "dependencies": {
+    "@faker-js/faker": "^10.4.0",
     "@prisma/client": "^6.1.0",
     "bcryptjs": "^2.4.3",
     "bullmq": "^5.69.3",

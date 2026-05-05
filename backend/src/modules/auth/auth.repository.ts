@@ -1,7 +1,7 @@
 import { AuthCodeStatus } from '@prisma/client';
 
-import { BaseRepository } from '../../core/repository';
-import { prisma } from '../../utils/prisma';
+import { BaseRepository } from '../../shared/core/repository';
+import { prisma } from '../../shared/utils/prisma';
 
 export class AuthRepository extends BaseRepository {
   findUserById(user_id: string) {

@@ -1,7 +1,7 @@
 import { Router, Request, Response } from 'express';
-import { authMiddleware } from '../../middlewares/auth.middleware';
-import { requireRole } from '../../middlewares/require-role.middleware';
-import { prisma } from '../../utils/prisma';
+import { authMiddleware } from '../../shared/middlewares/auth.middleware';
+import { requireRole } from '../../shared/middlewares/require-role.middleware';
+import { prisma } from '../../shared/utils/prisma';
 import { AppRole } from '@prisma/client';
 
 const router = Router();

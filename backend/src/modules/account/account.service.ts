@@ -1,7 +1,7 @@
 import { AccountJoinRequestStatus } from '@prisma/client';
 
-import { BaseService } from '../../core/service';
-import { HttpException } from '../../core/http-exception';
+import { BaseService } from '../../shared/core/service';
+import { HttpException } from '../../shared/core/http-exception';
 import { accountRepository, AccountRepository } from './account.repository';
 
 export class AccountService extends BaseService {

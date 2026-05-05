@@ -1,4 +1,4 @@
-import { BaseService } from '../../core/service';
+import { BaseService } from '../../shared/core/service';
 import { Example } from './example.model';
 import { exampleRepository, ExampleRepository } from './example.repository';
 import { CreateExampleDto } from './dto/create-example.dto';

@@ -1,6 +1,6 @@
 import { Campaign, CampaignVersion, PromptNode, CaptureSession, Prisma } from '@prisma/client';
 import { randomUUID } from 'crypto';
-import { prisma } from '../../utils/prisma';
+import { prisma } from '../../shared/utils/prisma';
 import { CreateCampaignDto, UpdateCampaignDto } from './dto/campaign.dto';
 
 export class CampaignRepository {

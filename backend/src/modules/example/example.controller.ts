@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 
-import { ApiResponse } from '../../core/api-response';
-import { BaseController } from '../../core/controller';
+import { ApiResponse } from '../../shared/core/api-response';
+import { BaseController } from '../../shared/core/controller';
 import { ExampleService, exampleService } from './example.service';
 import { createExampleSchema } from './dto/create-example.dto';
 

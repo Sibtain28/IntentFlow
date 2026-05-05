@@ -1,6 +1,6 @@
-import { BaseService } from '../../core/service';
-import { HttpException } from '../../core/http-exception';
-import { OPENAI_API_KEY, OPENAI_MODEL } from '../../config/env';
+import { BaseService } from '../../shared/core/service';
+import { HttpException } from '../../shared/core/http-exception';
+import { OPENAI_API_KEY, OPENAI_MODEL } from '../../app/config/env';
 import { DomainRepository, domainRepository } from './domain.repository';
 import { DomainContextPayload, DomainSummary } from './domain.model';
 

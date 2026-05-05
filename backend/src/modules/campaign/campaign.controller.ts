@@ -1,5 +1,5 @@
 import { Response, NextFunction } from 'express';
-import { AuthRequest } from '../../middlewares/auth.middleware';
+import { AuthRequest } from '../../shared/middlewares/auth.middleware';
 import { campaignService } from './campaign.service';
 import {
     createCampaignSchema,
@@ -14,8 +14,8 @@ import {
     executePromptSchema,
     siteTopQueriesSchema,
 } from './dto/campaign.dto';
-import { ApiResponse } from '../../core/api-response';
-import { HttpException } from '../../core/http-exception';
+import { ApiResponse } from '../../shared/core/api-response';
+import { HttpException } from '../../shared/core/http-exception';
 
 const parse_version_id = (raw: unknown): string | undefined => {
     if (typeof raw !== 'string') return undefined;

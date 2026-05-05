@@ -11,14 +11,14 @@ import {
     ExecutePromptDto,
     SiteTopQueriesDto,
 } from './dto/campaign.dto';
-import { prisma } from '../../utils/prisma';
+import { prisma } from '../../shared/utils/prisma';
 import { NodeType, Prisma } from '@prisma/client';
 import { createHash, randomUUID } from 'crypto';
-import { AHREFS_URL, OPENAI_API_KEY, OPENAI_MODEL, SEMRUSH_URL } from '../../config/env';
-import { SemrushSiteInput } from '../../queue/semrush.types';
+import { AHREFS_URL, OPENAI_API_KEY, OPENAI_MODEL, SEMRUSH_URL } from '../../app/config/env';
+import { SemrushSiteInput } from '../../infrastructure/queue/semrush.types';
 import { leadIntelligenceService } from '../lead-intelligence/lead-intelligence.service';
-import { fetch_semrush_site_insights } from '../../queue/workers/semrush.client';
-import { fetch_ahrefs_site_insights } from '../../queue/workers/ahrefs.client';
+import { fetch_semrush_site_insights } from '../../infrastructure/queue/workers/semrush.client';
+import { fetch_ahrefs_site_insights } from '../../infrastructure/queue/workers/ahrefs.client';
 import {
     normalize_conversation_payload,
     NormalizedConversationData,

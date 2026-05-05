@@ -1,11 +1,11 @@
 import jwt, { SignOptions } from 'jsonwebtoken';
 
-import config from '../../config';
-import { HttpException } from '../../core/http-exception';
-import { BaseService } from '../../core/service';
-import { comparePassword, hashPassword } from '../../utils/bcrypt';
-import { hashToken, randomToken } from '../../utils/tokens';
-import { prisma } from '../../utils/prisma';
+import config from '../../app/config';
+import { HttpException } from '../../shared/core/http-exception';
+import { BaseService } from '../../shared/core/service';
+import { comparePassword, hashPassword } from '../../shared/utils/bcrypt';
+import { hashToken, randomToken } from '../../shared/utils/tokens';
+import { prisma } from '../../shared/utils/prisma';
 import { onboardingRepository } from '../onboarding/onboarding.repository';
 import { onboardingService } from '../onboarding/onboarding.service';
 import { AuthRepository, authRepository } from './auth.repository';

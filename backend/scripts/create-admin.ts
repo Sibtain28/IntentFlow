@@ -1,7 +1,7 @@
-import { prisma } from '../src/utils/prisma';
+import { prisma } from '../src/shared/utils/prisma';
 // OOP: Encapsulation — prisma instance abstracts DB connection and queries
 
-import { hashPassword } from '../src/utils/bcrypt';
+import { hashPassword } from '../src/shared/utils/bcrypt';
 // SRP: hashPassword is responsible only for hashing (good separation of concern)
 // OOP: Abstraction — hides hashing algorithm details
 

@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 
-import { ApiResponse } from '../../core/api-response';
-import { BaseController } from '../../core/controller';
+import { ApiResponse } from '../../shared/core/api-response';
+import { BaseController } from '../../shared/core/controller';
 import { createUserSchema } from './dto/create-user.dto';
 import { loginUserSchema } from './dto/login-user.dto';
 import { UserService, userService } from './user.service';

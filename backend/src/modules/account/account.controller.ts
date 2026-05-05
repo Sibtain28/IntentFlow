@@ -1,8 +1,8 @@
 import { Response } from 'express';
 
-import { ApiResponse } from '../../core/api-response';
-import { HttpException } from '../../core/http-exception';
-import { AuthenticatedRequest } from '../../types/express';
+import { ApiResponse } from '../../shared/core/api-response';
+import { HttpException } from '../../shared/core/http-exception';
+import { AuthenticatedRequest } from '../../shared/types/express';
 import { createJoinRequestSchema } from './dto/create-join-request.dto';
 import { accountService, AccountService } from './account.service';
 

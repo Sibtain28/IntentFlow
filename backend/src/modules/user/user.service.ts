@@ -1,9 +1,9 @@
 import jwt from 'jsonwebtoken';
 
-import config from '../../config';
-import { HttpException } from '../../core/http-exception';
-import { BaseService } from '../../core/service';
-import { comparePassword, hashPassword } from '../../utils/bcrypt';
+import config from '../../app/config';
+import { HttpException } from '../../shared/core/http-exception';
+import { BaseService } from '../../shared/core/service';
+import { comparePassword, hashPassword } from '../../shared/utils/bcrypt';
 import { userRepository, UserRepository } from './user.repository';
 import { CreateUserDto } from './dto/create-user.dto';
 import { LoginUserDto } from './dto/login-user.dto';

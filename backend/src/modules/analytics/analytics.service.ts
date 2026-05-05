@@ -1,4 +1,4 @@
-import { prisma } from '../../utils/prisma';
+import { prisma } from '../../shared/utils/prisma';
 import { AnalyticsEventDto } from './dto/analytics.dto';
 
 const PII_KEYS = ['email', 'password', 'token', 'authorization', 'secret', 'phone', 'ssn', 'address'];

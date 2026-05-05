@@ -1,7 +1,7 @@
 import { Router } from 'express';
 
-import { authMiddleware } from '../../middlewares/auth.middleware';
-import { requireAccountRole } from '../../middlewares/require-account-role.middleware';
+import { authMiddleware } from '../../shared/middlewares/auth.middleware';
+import { requireAccountRole } from '../../shared/middlewares/require-account-role.middleware';
 import { domainController } from './domain.controller';
 
 const router = Router();
