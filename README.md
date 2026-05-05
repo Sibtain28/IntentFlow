@@ -1,6 +1,6 @@
 ```markdown
-# IntentFlow
-### AI SEO Intelligence Platform
+IntentFlow
+AI SEO Intelligence Platform
 
 IntentFlow is a full-stack intelligence platform that captures invisible user behavior from AI chat providers—ChatGPT, Claude, Perplexity, and Grok—and materializes it into structured, deterministic SEO campaign data.
 
