@@ -1,4 +1,4 @@
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL ?? "https://ai-seo-monorepo.onrender.com";
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL ?? "http://localhost:4000";
 const WEB_APP_URL = import.meta.env.VITE_WEB_APP_URL ?? "http://localhost:5173";
 const WEB_APP_ORIGIN = new URL(WEB_APP_URL).origin;
 

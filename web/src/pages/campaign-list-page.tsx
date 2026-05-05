@@ -74,7 +74,7 @@ import claudeLogo from '/claude.svg';
 import perplexityLogo from '/perplexity.svg';
 import grokLogo from '/grok-(xai).svg';
 
-const WEB_API_BASE_URL = import.meta.env.VITE_API_BASE_URL ?? 'https://ai-seo-monorepo.onrender.com';
+const WEB_API_BASE_URL = import.meta.env.VITE_API_BASE_URL ?? 'http://localhost:4000';
 
 const EXECUTED_FILTER_PROVIDERS = ['chatgpt', 'claude', 'perplexity', 'grok'] as const;
 type ExecutedProviderFilter = 'all' | typeof EXECUTED_FILTER_PROVIDERS[number];

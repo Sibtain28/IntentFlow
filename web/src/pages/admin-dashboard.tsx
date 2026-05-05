@@ -10,7 +10,7 @@ import { useOutletContext } from 'react-router-dom';
 import { AppLayoutContext } from './app-layout';
 import { auth_storage } from '@/shared/lib/auth';
 
-const API_BASE = import.meta.env.VITE_API_BASE_URL ?? 'https://ai-seo-monorepo.onrender.com';
+const API_BASE = import.meta.env.VITE_API_BASE_URL ?? 'http://localhost:4000';
 
 async function adminFetch(path: string) {
     const token = auth_storage.get_access_token();

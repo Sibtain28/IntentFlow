@@ -417,7 +417,7 @@ async function getPassiveIngestContext(): Promise<{ accessToken: string; apiBase
         const apiBase = typeof storage.ai_seo_api_base_url === 'string' ? storage.ai_seo_api_base_url.trim() : '';
         return {
             accessToken,
-            apiBaseUrl: (apiBase || 'https://ai-seo-monorepo.onrender.com').replace(/\/+$/, ''),
+            apiBaseUrl: (apiBase || 'http://localhost:4000').replace(/\/+$/, ''),
         };
     } catch {
         return null;
@@ -1547,7 +1547,7 @@ function startExecutionFromMessage(message: {
         versionId: typeof message.versionId === 'string' && message.versionId.trim() ? message.versionId.trim() : undefined,
         tasks,
         accessToken,
-        apiBaseUrl: (typeof message.apiBaseUrl === 'string' && message.apiBaseUrl.trim() ? message.apiBaseUrl.trim() : 'https://ai-seo-monorepo.onrender.com').replace(/\/+$/, ''),
+        apiBaseUrl: (typeof message.apiBaseUrl === 'string' && message.apiBaseUrl.trim() ? message.apiBaseUrl.trim() : 'http://localhost:4000').replace(/\/+$/, ''),
         ingestInBackground: message.ingestInBackground !== false,
         currentIndex: null,
         completedCount: 0,

@@ -21,6 +21,11 @@ export class AnalyticsService {
         const safeProperties = scrubPII(event.properties);
         console.log(`[Analytics] Tracked Event: ${event.event_name} by user: ${user_id}`);
 
+        if (!tenant_id) {
+            console.warn(`[Analytics] Skipping database record for ${event.event_name} - user ${user_id} has no active tenant`);
+            return null;
+        }
+
         return prisma.analyticsEvent.create({
             data: {
                 tenant_id,

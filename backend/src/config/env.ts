@@ -22,7 +22,7 @@ export const GOOGLE_REDIRECT_URI = getEnv('GOOGLE_REDIRECT_URI', '');
 export const OAUTH_DEFAULT_EXTENSION_REDIRECT_URI = getEnv('OAUTH_DEFAULT_EXTENSION_REDIRECT_URI', '');
 export const CORS_ALLOWED_ORIGINS = getEnv(
   'CORS_ALLOWED_ORIGINS',
-  'http://localhost:5173,https://ai-seo-monorepo.vercel.app',
+  'http://localhost:5173,http://localhost:5174,http://127.0.0.1:5173,http://127.0.0.1:5174,https://ai-seo-monorepo.vercel.app',
 );
 export const REQUEST_BODY_LIMIT = getEnv('REQUEST_BODY_LIMIT', '2mb');
 export const OPENAI_API_KEY = getEnv('OPENAI_API_KEY', '');

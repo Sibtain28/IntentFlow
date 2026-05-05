@@ -49,7 +49,7 @@ type SessionState = {
   chat_provider?: ai_chat_provider;
 };
 
-const WEB_API_BASE_URL = import.meta.env.VITE_API_BASE_URL ?? 'https://ai-seo-monorepo.onrender.com';
+const WEB_API_BASE_URL = import.meta.env.VITE_API_BASE_URL ?? 'http://localhost:4000';
 const ACCESS_TOKEN_KEY = 'ai_seo_access_token';
 const DOMAIN_SELECTION_KEY = 'ai_seo_selected_domain_id';
 const FIRE_PROVIDER_OPTIONS: FireProvider[] = ['chatgpt', 'claude', 'perplexity', 'grok'];

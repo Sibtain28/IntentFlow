@@ -27,6 +27,9 @@ export default function OnboardingPage() {
       try {
         const context = await get_onboarding_context(token);
         if (!context.needs_onboarding) {
+          if (context.active_account?.tenant_id) {
+            await switch_account(token, context.active_account.tenant_id);
+          }
           navigate('/workspace', { replace: true });
           return;
         }

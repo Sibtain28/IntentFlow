@@ -1,132 +1,111 @@
-# IntentFlow
+# 🌊 IntentFlow
 
-IntentFlow is a platform for capturing and organizing AI-driven search intent. It allows you to save conversations from AI tools, turn them into structured maps, and analyze them for SEO and marketing insights.
+**IntentFlow** is the ultimate **AI Search Visibility (LLM-SEO)** intelligence platform. It allows enterprises to monitor how their brands and websites are cited by AI search engines (like Perplexity, ChatGPT, and Claude), identify gaps in AI research, and automatically generate prompts to "probe" and influence AI search results.
 
-The system includes a Chrome extension for capturing chats, a web dashboard for analysis, and a backend for storing data and fetching SEO metrics.
+---
 
-## System Architecture
+## 🏗 System Architecture
+
+IntentFlow is a modular monorepo designed for high-performance data capture and enrichment.
+
+- **Frontend (`/web`)**: A premium React dashboard for visualizing intent trees and managing campaigns.
+- **Backend (`/backend`)**: An Express API with Prisma ORM, PostgreSQL, and BullMQ for background task processing.
+- **Extension (`/extension`)**: A Manifest V3 Chrome extension that uses **Scripting Injection** to capture raw AI conversation streams directly from providers.
 
 ```mermaid
 graph TD
-    subgraph "Client Side"
+    subgraph "Capture Layer (Extension)"
         Ext[Chrome Extension]
-        Web[Web Dashboard]
+        Inject[Injected Script]
     end
 
-    subgraph "AI Tools"
+    subgraph "AI Providers"
         GPT[ChatGPT]
-        Cld[Claude]
-        Prp[Perplexity]
-        Grk[Grok]
+        CLD[Claude]
+        PRP[Perplexity]
     end
 
-    subgraph "Backend"
+    subgraph "Intelligence Loop (Backend)"
         API[Express API]
-        Q[Task Queue]
-        DB[(Database)]
+        NORM[Conversation Normalizer]
+        SEO[SEO Enrichment Worker]
+        GEN[OpenAI Prompt Engine]
     end
 
-    subgraph "SEO Integrations"
-        SM[Semrush]
-        AH[Ahrefs]
+    subgraph "External Insights"
+        AHR[Ahrefs API/Mock]
+        SEM[Semrush API/Mock]
     end
 
-    Ext -- Captures Chats --> GPT & Cld & Prp & Grk
-    Ext -- Saves to --> API
-    Web -- Views & Manages --> API
-    API -- Database --> DB
-    API -- Enrichment --> Q
-    Q -- Fetch Stats --> SM & AH
+    Inject -- API Hooking --> GPT & CLD & PRP
+    Ext -- Ingets Data --> API
+    API -- Deconstructs --> NORM
+    NORM -- Queues Sites --> SEO
+    SEO -- Fetches Stats --> AHR & SEM
+    NORM -- Context --> GEN
+    GEN -- Suggested Prompts --> Web[Dashboard]
+    Web -- Pivot Command --> Ext
 ```
 
 ---
 
-## Core Features
+## 🔄 The "Intelligence Loop" (How It Works)
 
-### Live Chat Capture
-A Chrome extension (Manifest V3) that runs in a side panel. it captures conversation threads from AI providers like ChatGPT, Claude, Perplexity, and Grok as you chat.
+### 1. Injected Capture
+Unlike standard network sniffers, IntentFlow **injects code** into the active AI tab. It calls the LLM's internal conversation API (e.g., `/backend-api/conversation` on ChatGPT) to retrieve the full, raw structural data of your chat, including hidden search steps and citations.
 
-### Conversation Mapping
-The system automatically turns raw chats into a structured tree:
-1. **User Prompt**: The main question or instruction.
-2. **Sub-Steps**: The logical sections or search tasks the AI performed.
-3. **Sites & Sources**: The websites the AI visited or cited, organized by topic.
+### 2. Normalization & Intent Trees
+The backend deconstructs the raw JSON into oraganized **Intent Trees**:
+- **Prompts**: The user's input.
+- **Sub-Queries**: The specific searches the AI performed.
+- **Cited Sources**: The websites the AI actually visited and quoted.
 
-### Campaign Management
-Organize your research into Campaigns and Versions.
-- **Multi-Provider Replay**: Re-run your prompts across different AI tools to compare results.
-- **Search History**: Track how your prompts and AI responses change over time.
+### 3. SEO Enrichment
+Every source cited by the AI is enriched with data from **Ahrefs** and **SEMrush**. We fetch metrics like:
+- **Domain Rating (DR)** & **Traffic**.
+- **Keyword Overlap**: Which keywords are shared between the user's intent and the cited site?
 
----
+### 4. AI-Driven "Pivot" Prompts
+Using the context of the current conversation and the missing SEO signals (sites that *should* have been cited but weren't), **OpenAI** generates 2-3 **Prompt Candidates**. These are designed to pivot the AI's research or probe why certain sites were ignored.
 
-## Technical Stack
-
-| Part | Technology |
-| :--- | :--- |
-| **Backend** | Node.js, Express, Prisma (PostgreSQL), BullMQ (Redis) |
-| **Web App** | React, Vite, Tailwind CSS, Tree Visualization (XYFlow) |
-| **Extension** | React, Chrome Extension API (Manifest V3) |
+### 5. Automated Re-Execution
+Users can fire these candidates directly from the dashboard. The extension will open new tabs, load the target LLM, and automatically input the prompt to trigger the next turn in the pipeline.
 
 ---
 
-## Developer Setup
+## 🚀 Local Setup
 
-### Prerequisites
-- Node.js (18+) & pnpm
-- PostgreSQL (Database)
-- Redis (For background tasks)
+### 1. Prerequisites
+- **Node.js** (v18+)
+- **Python 3** (for the Mock API)
+- **Supabase Account** (PostgreSQL)
+- **Upstash Account** (Redis)
 
-### 1. Installation
+### 2. Installation
 ```bash
-git clone https://github.com/amogharajsandur/IntentFlow.git
+git clone https://github.com/sibtain-ahmed/IntentFlow.git
 cd IntentFlow
-pnpm install
+# Install dependencies in root or subfolders
+npm install --prefix backend
+npm install --prefix web
+npm install --prefix extension
 ```
 
-### 2. Configuration
-Create a `.env` file in the `backend/` folder:
-
-| Key | Description | Required |
-| :--- | :--- | :--- |
-| `DATABASE_URL` | PostgreSQL connection link | Yes |
-| `REDIS_URL` | Redis connection link | Yes |
-| `JWT_SECRET` | Security key for user sessions | Yes |
-| `OPENAI_API_KEY` | For AI-based suggestions | Optional |
-| `SEMRUSH_URL` | For SEO keyword data | Optional |
-| `AHREFS_URL` | For site traffic data | Optional |
-
-### 3. Start Developing
-```bash
-cd backend
-npx prisma generate
-npx prisma db push
-pnpm dev # Starts the API and background workers
-```
+### 3. Running Development
+Start **three** terminals:
+1. **Mock API**: `python3 mock_server.py` (Simulates Ahrefs/Semrush)
+2. **Backend**: `cd backend && npm run dev` (Runs on port 4000)
+3. **Frontend**: `cd web && npm run dev` (Runs on port 5173)
 
 ---
 
-## How It Works (Data Flow)
+## ❓ Troubleshooting
 
-1. **Capture**: The extension listens to the data coming from AI tools like ChatGPT.
-2. **Save**: The extension sends the conversation to the backend.
-3. **Process**: The backend breaks the chat down into prompts, sub-queries, and cited websites.
-4. **Enrich**: For cited websites, background tasks fetch SEO metrics (like Traffic or Difficulty).
-5. **View**: Designers and SEOs can view the results in the web dashboard or as a visual tree.
+- **CORS Error**: Ensure `VITE_API_BASE_URL` in `web/.env` is `http://localhost:4000`.
+- **Port Conflict**: If `5173` is blocked, killing zombie node processes with `lsof -i :5173` usually fixes it.
+- **DB Push**: If database errors occur, run `npx prisma db push` in the `backend` folder.
 
 ---
 
-## Common Scripts
-
-| Task | Backend | Web App | Extension |
-| :--- | :--- | :--- | :--- |
-| **Start Dev** | `pnpm dev` | `pnpm dev` | `pnpm dev` |
-| **Build Project** | `pnpm build` | `pnpm build` | `pnpm build` |
-| **Database Sync** | `pnpm prisma:push` | N/A | N/A |
-
----
-
-## Troubleshooting
-
-- **Extension Not Connecting**: Make sure the web app URL is added to the extension's allowed hosts in `manifest.json`.
-- **Tasks Not Running**: Check if Redis is active. Background jobs will wait until the worker starts.
-- **Re-running Prompts**: The backend records the intent to re-run, but the extension actually opens the tabs to execute them.
+## 📜 License
+Internal Development - All Rights Reserved.

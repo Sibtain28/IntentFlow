@@ -67,6 +67,7 @@ export class OnboardingService extends BaseService {
   }
 
   async bootstrap(params: { user_id: string; payload: BootstrapOnboardingDto }): Promise<OnboardingContextPayload> {
+    console.log('[DEBUG] Onboarding bootstrap called', { mode: params.payload.mode, payload: params.payload });
     if (params.payload.mode === 'create_account') {
       const parsed = DomainService.normalizeDomainInput(params.payload.domain_url);
       const account_name_from_domain = DomainService.accountNameFromDomain(parsed.normalized_domain);
