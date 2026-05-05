@@ -26,7 +26,7 @@
     <rect x="20" y="50" width="160" height="130" rx="6" fill="white" stroke="#4a90d9" stroke-width="1.8"/>
     <rect x="20" y="50" width="160" height="28" rx="6" fill="#4a90d9"/>
     <text x="100" y="69" text-anchor="middle" fill="white" font-weight="bold">User</text>
-    <text x="30" y="97" fill="#333">🔑 id (PK)</text>
+    <text x="30" y="97" fill="#333">id (PK)</text>
     <text x="30" y="114" fill="#333">email</text>
     <text x="30" y="131" fill="#333">password_hash</text>
     <text x="30" y="148" fill="#333">app_role</text>
@@ -38,7 +38,7 @@
     <rect x="220" y="50" width="155" height="115" rx="6" fill="white" stroke="#4a90d9" stroke-width="1.8"/>
     <rect x="220" y="50" width="155" height="28" rx="6" fill="#4a90d9"/>
     <text x="297" y="69" text-anchor="middle" fill="white" font-weight="bold">Tenant</text>
-    <text x="230" y="97" fill="#333">🔑 id (PK)</text>
+    <text x="230" y="97" fill="#333">id (PK)</text>
     <text x="230" y="114" fill="#333">name</text>
     <text x="230" y="131" fill="#333">domain</text>
     <text x="230" y="148" fill="#555" font-size="10">org/account boundary</text>
@@ -49,7 +49,7 @@
     <rect x="220" y="200" width="155" height="100" rx="6" fill="white" stroke="#7b9fd4" stroke-width="1.5"/>
     <rect x="220" y="200" width="155" height="28" rx="6" fill="#7b9fd4"/>
     <text x="297" y="219" text-anchor="middle" fill="white" font-weight="bold">TenantMember</text>
-    <text x="230" y="247" fill="#333">🔑 id (PK)</text>
+    <text x="230" y="247" fill="#333">id (PK)</text>
     <text x="230" y="264" fill="#333">user_id (FK)</text>
     <text x="230" y="281" fill="#333">tenant_id (FK)</text>
     <text x="230" y="298" fill="#333">tenant_role</text>
@@ -60,7 +60,7 @@
     <rect x="420" y="50" width="165" height="115" rx="6" fill="white" stroke="#4a90d9" stroke-width="1.8"/>
     <rect x="420" y="50" width="165" height="28" rx="6" fill="#4a90d9"/>
     <text x="502" y="69" text-anchor="middle" fill="white" font-weight="bold">Campaign</text>
-    <text x="430" y="97" fill="#333">🔑 id (PK)</text>
+    <text x="430" y="97" fill="#333">id (PK)</text>
     <text x="430" y="114" fill="#333">tenant_id (FK)</text>
     <text x="430" y="131" fill="#333">name</text>
     <text x="430" y="148" fill="#333">created_at</text>
@@ -72,7 +72,7 @@
     <rect x="420" y="205" width="165" height="100" rx="6" fill="white" stroke="#7b9fd4" stroke-width="1.5"/>
     <rect x="420" y="205" width="165" height="28" rx="6" fill="#7b9fd4"/>
     <text x="502" y="224" text-anchor="middle" fill="white" font-weight="bold">CampaignVersion</text>
-    <text x="430" y="252" fill="#333">🔑 id (PK)</text>
+    <text x="430" y="252" fill="#333">id (PK)</text>
     <text x="430" y="269" fill="#333">campaign_id (FK)</text>
     <text x="430" y="286" fill="#333">version_number</text>
     <text x="430" y="303" fill="#333">created_at</text>
@@ -83,7 +83,7 @@
     <rect x="420" y="345" width="165" height="100" rx="6" fill="white" stroke="#7b9fd4" stroke-width="1.5"/>
     <rect x="420" y="345" width="165" height="28" rx="6" fill="#7b9fd4"/>
     <text x="502" y="364" text-anchor="middle" fill="white" font-weight="bold">CaptureSession</text>
-    <text x="430" y="392" fill="#333">🔑 id (PK)</text>
+    <text x="430" y="392" fill="#333">id (PK)</text>
     <text x="430" y="409" fill="#333">version_id (FK)</text>
     <text x="430" y="426" fill="#333">provider</text>
     <text x="430" y="443" fill="#555" font-size="10">chatgpt | claude | etc.</text>
@@ -94,7 +94,7 @@
     <rect x="420" y="485" width="165" height="100" rx="6" fill="white" stroke="#7b9fd4" stroke-width="1.5"/>
     <rect x="420" y="485" width="165" height="28" rx="6" fill="#7b9fd4"/>
     <text x="502" y="504" text-anchor="middle" fill="white" font-weight="bold">CaptureTurn</text>
-    <text x="430" y="532" fill="#333">🔑 id (PK)</text>
+    <text x="430" y="532" fill="#333">id (PK)</text>
     <text x="430" y="549" fill="#333">session_id (FK)</text>
     <text x="430" y="566" fill="#333">turn_exchange_id</text>
     <text x="430" y="583" fill="#333">raw_prompt_text</text>
@@ -105,7 +105,7 @@
     <rect x="640" y="205" width="175" height="145" rx="6" fill="white" stroke="#e67e22" stroke-width="1.8"/>
     <rect x="640" y="205" width="175" height="28" rx="6" fill="#e67e22"/>
     <text x="727" y="224" text-anchor="middle" fill="white" font-weight="bold">PromptNode</text>
-    <text x="650" y="252" fill="#333">🔑 id (PK, SHA-1)</text>
+    <text x="650" y="252" fill="#333">id (PK, SHA-1)</text>
     <text x="650" y="269" fill="#333">version_id (FK)</text>
     <text x="650" y="286" fill="#333">parent_id (FK self)</text>
     <text x="650" y="303" fill="#333">node_type</text>
@@ -118,7 +118,7 @@
     <rect x="640" y="395" width="175" height="115" rx="6" fill="white" stroke="#2e7d32" stroke-width="1.8"/>
     <rect x="640" y="395" width="175" height="28" rx="6" fill="#2e7d32"/>
     <text x="727" y="414" text-anchor="middle" fill="white" font-weight="bold">SemrushSnapshot</text>
-    <text x="650" y="442" fill="#333">🔑 id (PK)</text>
+    <text x="650" y="442" fill="#333">id (PK)</text>
     <text x="650" y="459" fill="#333">node_id (FK)</text>
     <text x="650" y="476" fill="#333">keyword_volume</text>
     <text x="650" y="493" fill="#333">traffic_estimate</text>
@@ -130,7 +130,7 @@
     <rect x="640" y="550" width="175" height="95" rx="6" fill="white" stroke="#7b1fa2" stroke-width="1.8"/>
     <rect x="640" y="550" width="175" height="28" rx="6" fill="#7b1fa2"/>
     <text x="727" y="569" text-anchor="middle" fill="white" font-weight="bold">LeadSignal</text>
-    <text x="650" y="597" fill="#333">🔑 id (PK)</text>
+    <text x="650" y="597" fill="#333">id (PK)</text>
     <text x="650" y="614" fill="#333">turn_id (FK)</text>
     <text x="650" y="631" fill="#333">intent_score</text>
     <text x="650" y="640" fill="#333">signal_type</text>
