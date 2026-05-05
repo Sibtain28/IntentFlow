@@ -1,0 +1,167 @@
+<svg viewBox="0 0 980 720" xmlns="http://www.w3.org/2000/svg" font-family="Segoe UI, Arial, sans-serif" font-size="12">
+  <defs>
+    <marker id="arr" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#333"/>
+    </marker>
+    <marker id="darr" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#888"/>
+    </marker>
+    <marker id="rarr" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#2e7d32"/>
+    </marker>
+  </defs>
+
+  <rect width="980" height="720" fill="#f9f9fb" rx="12"/>
+  <text x="490" y="30" text-anchor="middle" font-size="18" font-weight="bold" fill="#1a1a2e">IntentFlow — Sequence Diagram</text>
+  <text x="490" y="48" text-anchor="middle" font-size="11" fill="#666">End-to-end: AI stream capture → campaign materialization → enrichment</text>
+
+  <!-- ========= LIFELINE HEADERS ========= -->
+  <!-- positions: User=60, Extension=190, Backend=350, DB=490, Queue=620, SEMrush=750, Dashboard=900 -->
+
+  <rect x="20" y="60" width="80" height="30" rx="5" fill="#4a90d9"/>
+  <text x="60" y="80" text-anchor="middle" fill="white" font-weight="bold" font-size="11">User</text>
+
+  <rect x="145" y="60" width="90" height="30" rx="5" fill="#4a90d9"/>
+  <text x="190" y="80" text-anchor="middle" fill="white" font-weight="bold" font-size="11">Extension</text>
+  <text x="190" y="93" text-anchor="middle" fill="#555" font-size="9">(Chrome MV3)</text>
+
+  <rect x="305" y="60" width="90" height="30" rx="5" fill="#2c3e50"/>
+  <text x="350" y="80" text-anchor="middle" fill="white" font-weight="bold" font-size="11">Backend</text>
+  <text x="350" y="93" text-anchor="middle" fill="#aaa" font-size="9">(Express API)</text>
+
+  <rect x="450" y="60" width="80" height="30" rx="5" fill="#2c3e50"/>
+  <text x="490" y="80" text-anchor="middle" fill="white" font-weight="bold" font-size="11">Database</text>
+  <text x="490" y="93" text-anchor="middle" fill="#aaa" font-size="9">(PostgreSQL)</text>
+
+  <rect x="585" y="60" width="70" height="30" rx="5" fill="#6d3b8a"/>
+  <text x="620" y="80" text-anchor="middle" fill="white" font-weight="bold" font-size="11">BullMQ</text>
+  <text x="620" y="93" text-anchor="middle" fill="#ddd" font-size="9">(Queue)</text>
+
+  <rect x="710" y="60" width="80" height="30" rx="5" fill="#2e7d32"/>
+  <text x="750" y="80" text-anchor="middle" fill="white" font-weight="bold" font-size="11">SEMrush</text>
+  <text x="750" y="93" text-anchor="middle" fill="#ccc" font-size="9">/ Ahrefs</text>
+
+  <rect x="860" y="60" width="90" height="30" rx="5" fill="#4a90d9"/>
+  <text x="905" y="80" text-anchor="middle" fill="white" font-weight="bold" font-size="11">Dashboard</text>
+  <text x="905" y="93" text-anchor="middle" fill="#555" font-size="9">(Web UI)</text>
+
+  <!-- ========= LIFELINES ========= -->
+  <line x1="60" y1="100" x2="60" y2="710" stroke="#aaa" stroke-width="1" stroke-dasharray="5,4"/>
+  <line x1="190" y1="100" x2="190" y2="710" stroke="#aaa" stroke-width="1" stroke-dasharray="5,4"/>
+  <line x1="350" y1="100" x2="350" y2="710" stroke="#aaa" stroke-width="1" stroke-dasharray="5,4"/>
+  <line x1="490" y1="100" x2="490" y2="710" stroke="#aaa" stroke-width="1" stroke-dasharray="5,4"/>
+  <line x1="620" y1="100" x2="620" y2="710" stroke="#aaa" stroke-width="1" stroke-dasharray="5,4"/>
+  <line x1="750" y1="100" x2="750" y2="710" stroke="#aaa" stroke-width="1" stroke-dasharray="5,4"/>
+  <line x1="905" y1="100" x2="905" y2="710" stroke="#aaa" stroke-width="1" stroke-dasharray="5,4"/>
+
+  <!-- ========= MESSAGES ========= -->
+
+  <!-- GROUP: Auth -->
+  <rect x="35" y="108" width="935" height="58" rx="4" fill="#e8f0fe" stroke="#4a90d9" stroke-width="1" opacity="0.6"/>
+  <text x="42" y="122" font-size="10" font-weight="bold" fill="#4a90d9">Authentication</text>
+
+  <!-- 1. User → Extension: Open Extension -->
+  <line x1="60" y1="135" x2="185" y2="135" stroke="#333" stroke-width="1.5" marker-end="url(#arr)"/>
+  <text x="115" y="128" text-anchor="middle" font-size="10" fill="#333">1. Open Extension</text>
+
+  <!-- 2. Extension → Backend: POST /auth/login (JWT) -->
+  <line x1="190" y1="150" x2="345" y2="150" stroke="#333" stroke-width="1.5" marker-end="url(#arr)"/>
+  <text x="265" y="143" text-anchor="middle" font-size="10" fill="#333">2. POST /auth/login</text>
+
+  <!-- 2b. Backend → Extension: JWT token (return) -->
+  <line x1="345" y1="163" x2="195" y2="163" stroke="#888" stroke-width="1.2" stroke-dasharray="5,3" marker-end="url(#darr)"/>
+  <text x="265" y="159" text-anchor="middle" font-size="9" fill="#888">JWT token</text>
+
+  <!-- GROUP: Capture -->
+  <rect x="35" y="175" width="935" height="120" rx="4" fill="#fff8e8" stroke="#f0a500" stroke-width="1" opacity="0.6"/>
+  <text x="42" y="189" font-size="10" font-weight="bold" fill="#c87800">Stream Interception</text>
+
+  <!-- 3. User → AI Provider (external, shown via Extension) -->
+  <line x1="60" y1="205" x2="185" y2="205" stroke="#333" stroke-width="1.5" marker-end="url(#arr)"/>
+  <text x="115" y="198" text-anchor="middle" font-size="10" fill="#333">3. Chat with AI (ChatGPT / Claude…)</text>
+
+  <!-- 4. Extension intercepts SSE stream -->
+  <rect x="165" y="215" width="50" height="30" rx="3" fill="#f0a500" opacity="0.25"/>
+  <text x="190" y="233" text-anchor="middle" font-size="9" fill="#c87800">intercept</text>
+  <text x="190" y="243" text-anchor="middle" font-size="9" fill="#c87800">SSE stream</text>
+
+  <!-- 4b. content script → background -->
+  <line x1="190" y1="250" x2="190" y2="255" stroke="#c87800" stroke-width="1.2"/>
+  <text x="240" y="251" font-size="9" fill="#c87800">postMessage → chrome.runtime port</text>
+
+  <!-- 5. Extension → Backend: POST /campaigns/:id/ingest-turn -->
+  <line x1="190" y1="280" x2="345" y2="280" stroke="#333" stroke-width="1.5" marker-end="url(#arr)"/>
+  <text x="265" y="273" text-anchor="middle" font-size="10" fill="#333">5. POST /ingest-turn {prompt, subqueries, sites}</text>
+
+  <!-- GROUP: Materialization -->
+  <rect x="35" y="295" width="935" height="145" rx="4" fill="#f0f8e8" stroke="#5aaa30" stroke-width="1" opacity="0.6"/>
+  <text x="42" y="309" font-size="10" font-weight="bold" fill="#2e7d00">Campaign Materialization</text>
+
+  <!-- 6. Backend: validate JWT + Zod DTO -->
+  <rect x="330" y="315" width="40" height="20" rx="3" fill="#2c3e50" opacity="0.15"/>
+  <text x="350" y="329" text-anchor="middle" font-size="9" fill="#2c3e50">validate</text>
+
+  <!-- 7. Backend → DB: resolve CampaignVersion -->
+  <line x1="350" y1="343" x2="485" y2="343" stroke="#333" stroke-width="1.5" marker-end="url(#arr)"/>
+  <text x="415" y="336" text-anchor="middle" font-size="10" fill="#333">6. Resolve CampaignVersion</text>
+
+  <!-- 8. Backend: upsert PromptNode tree (SHA-1) -->
+  <line x1="350" y1="362" x2="485" y2="362" stroke="#333" stroke-width="1.5" marker-end="url(#arr)"/>
+  <text x="415" y="355" text-anchor="middle" font-size="10" fill="#333">7. Upsert PromptNode tree (SHA-1)</text>
+  <line x1="485" y1="376" x2="355" y2="376" stroke="#888" stroke-width="1.2" stroke-dasharray="5,3" marker-end="url(#darr)"/>
+  <text x="415" y="371" text-anchor="middle" font-size="9" fill="#888">saved</text>
+
+  <!-- 9. Backend → Queue: push enrichment jobs -->
+  <line x1="350" y1="400" x2="615" y2="400" stroke="#6d3b8a" stroke-width="1.5" marker-end="url(#arr)"/>
+  <text x="480" y="393" text-anchor="middle" font-size="10" fill="#6d3b8a">8. Push SEMrush / Ahrefs jobs</text>
+
+  <!-- 10. Backend → Queue: push lead intelligence -->
+  <line x1="350" y1="420" x2="615" y2="420" stroke="#6d3b8a" stroke-width="1.4" stroke-dasharray="4,3" marker-end="url(#arr)"/>
+  <text x="480" y="415" text-anchor="middle" font-size="9" fill="#6d3b8a">9. Push LeadSignal job (fire-and-forget)</text>
+
+  <!-- 10b. 200 OK → Extension -->
+  <line x1="345" y1="432" x2="195" y2="432" stroke="#888" stroke-width="1.2" stroke-dasharray="5,3" marker-end="url(#darr)"/>
+  <text x="265" y="427" text-anchor="middle" font-size="9" fill="#888">200 OK</text>
+
+  <!-- GROUP: Async Enrichment -->
+  <rect x="35" y="448" width="935" height="115" rx="4" fill="#f0e8fe" stroke="#7b1fa2" stroke-width="1" opacity="0.6"/>
+  <text x="42" y="462" font-size="10" font-weight="bold" fill="#7b1fa2">Async Enrichment (BullMQ Workers)</text>
+
+  <!-- Queue → SEMrush worker -->
+  <line x1="620" y1="475" x2="745" y2="475" stroke="#2e7d32" stroke-width="1.5" marker-end="url(#rarr)"/>
+  <text x="680" y="468" text-anchor="middle" font-size="10" fill="#2e7d32">10. Call SEMrush / Ahrefs API</text>
+
+  <!-- SEMrush → Queue (result) -->
+  <line x1="745" y1="490" x2="625" y2="490" stroke="#888" stroke-width="1.2" stroke-dasharray="5,3" marker-end="url(#darr)"/>
+  <text x="680" y="485" text-anchor="middle" font-size="9" fill="#888">keyword data</text>
+
+  <!-- Queue → DB: store snapshot -->
+  <line x1="620" y1="510" x2="495" y2="510" stroke="#333" stroke-width="1.5" marker-end="url(#arr)"/>
+  <text x="555" y="503" text-anchor="middle" font-size="10" fill="#333">11. Store SemrushSnapshot (TTL 24h)</text>
+
+  <!-- Queue → DB: store lead signal -->
+  <line x1="620" y1="530" x2="495" y2="530" stroke="#333" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#arr)"/>
+  <text x="555" y="525" text-anchor="middle" font-size="9" fill="#333">12. Store LeadSignal</text>
+
+  <!-- GROUP: Dashboard -->
+  <rect x="35" y="573" width="935" height="110" rx="4" fill="#e8f0fe" stroke="#4a90d9" stroke-width="1" opacity="0.6"/>
+  <text x="42" y="587" font-size="10" font-weight="bold" fill="#4a90d9">Visualization</text>
+
+  <!-- User → Dashboard: Open Web Dashboard -->
+  <line x1="60" y1="605" x2="900" y2="605" stroke="#333" stroke-width="1.5" marker-end="url(#arr)"/>
+  <text x="475" y="598" text-anchor="middle" font-size="10" fill="#333">13. Open Dashboard / Campaign Graph</text>
+
+  <!-- Dashboard → Backend: GET /campaign/:id/active-tree -->
+  <line x1="905" y1="622" x2="355" y2="622" stroke="#333" stroke-width="1.5" marker-end="url(#arr)"/>
+  <text x="620" y="615" text-anchor="middle" font-size="10" fill="#333">14. GET /campaign/:id/active-tree</text>
+
+  <!-- Backend → DB: fetch tree -->
+  <line x1="350" y1="640" x2="485" y2="640" stroke="#333" stroke-width="1.5" marker-end="url(#arr)"/>
+  <line x1="485" y1="655" x2="355" y2="655" stroke="#888" stroke-width="1.2" stroke-dasharray="5,3" marker-end="url(#darr)"/>
+  <text x="415" y="635" text-anchor="middle" font-size="9" fill="#333">DB query</text>
+  <text x="415" y="651" text-anchor="middle" font-size="9" fill="#888">PromptNode tree + enrichments</text>
+
+  <!-- Backend → Dashboard: tree JSON -->
+  <line x1="350" y1="673" x2="900" y2="673" stroke="#888" stroke-width="1.2" stroke-dasharray="5,3" marker-end="url(#darr)"/>
+  <text x="620" y="667" text-anchor="middle" font-size="10" fill="#888">15. Campaign tree JSON (XYFlow render)</text>
+</svg>
