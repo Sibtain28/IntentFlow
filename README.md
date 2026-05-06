@@ -296,7 +296,7 @@ cd extension && npm run build  # Build, then load `extension/dist/` unpacked
 ---
 Hosted URLs:
 1.Backend: https://intentflow-backend-production.up.railway.app/api/auth/google/callback
-2.Frontend: https://intentflow-backend-production.up.railway.app/api/auth/google/callback
+2.Frontend: https://intentflow-frontend-production.up.railway.app
 
 <p align="center">
   <sub>© 2026 IntentFlow. Confidential Project Documentation.</sub>
