@@ -294,6 +294,9 @@ cd extension && npm run build  # Build, then load `extension/dist/` unpacked
 | **Saumya** | Frontend & UX Engineering | XYFlow integration, Compact Tree Explorer, design system maintenance |
 
 ---
+Hosted URLs:
+1.Backend: https://intentflow-backend-production.up.railway.app/api/auth/google/callback
+2.Frontend: https://intentflow-backend-production.up.railway.app/api/auth/google/callback
 
 <p align="center">
   <sub>© 2026 IntentFlow. Confidential Project Documentation.</sub>
