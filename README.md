@@ -1,6 +1,6 @@
-```markdown
-IntentFlow
-AI SEO Intelligence Platform
+# IntentFlow
+
+## AI SEO Intelligence Platform
 
 IntentFlow is a full-stack intelligence platform that captures invisible user behavior from AI chat providers—ChatGPT, Claude, Perplexity, and Grok—and materializes it into structured, deterministic SEO campaign data.
 
@@ -294,11 +294,12 @@ cd extension && npm run build  # Build, then load `extension/dist/` unpacked
 | **Saumya** | Frontend & UX Engineering | XYFlow integration, Compact Tree Explorer, design system maintenance |
 
 ---
-Hosted URLs:
-1.Backend: https://intentflow-backend-production.up.railway.app/api/auth/google/callback
-2.Frontend: https://intentflow-frontend-production.up.railway.app
-
+Live Deployment URLs:
+<br>
+1.Frontend: https://intentflow-frontend-production.up.railway.app
+<br>
+2.Backend: https://intentflow-backend-production.up.railway.app/api/auth/google/callback
+<br>
 <p align="center">
   <sub>© 2026 IntentFlow. Confidential Project Documentation.</sub>
 </p>
-```
