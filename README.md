@@ -4,13 +4,15 @@
 
 IntentFlow is a full-stack intelligence platform that captures invisible user behavior from AI chat providers—ChatGPT, Claude, Perplexity, and Grok—and materializes it into structured, deterministic SEO campaign data.
 
-![IntentFlow - Web Dashboard - Dark Theme](./assets/IntentFlow_Dashboard-Web-darktheme.png)
-
-![IntentFlow - Web Dashboard - Light Theme](./assets/IntentFlow_Dashboard-Web-lighttheme.png)
+<p align="center">
+  <img src="./assets/IntentFlow_Dashboard-Web-darktheme.png" alt="IntentFlow - Web Dashboard - Dark Theme" width="49%" />
+  <img src="./assets/IntentFlow_Dashboard-Web-lighttheme.png" alt="IntentFlow - Web Dashboard - Light Theme" width="49%" />
+</p>
 
 ---
 
 ## Table of Contents
+
 - [The Problem](#the-problem)
 - [Core Features](#core-features)
 - [System Architecture](#system-architecture)
@@ -33,15 +35,15 @@ Traditional SEO tools monitor Google searches. But as users migrate to conversat
 
 ## Core Features
 
-| Feature | Description |
-|---------|-------------|
-| **Multi-Provider Interception** | Captures live streams from ChatGPT, Claude, Perplexity, and Grok simultaneously via a Chrome Manifest V3 extension. |
-| **Deterministic Tree Mapping** | Every conversation is materialized into a stable `Prompt → Subquery → Site` tree using deterministic SHA-1 hashing. |
-| **Campaign Versioning** | Snapshot campaigns and "refire" them to track how AI-cited sites change over time. |
-| **SEO Enrichment** | Background queues (BullMQ) auto-enrich sites with SEMrush and Ahrefs keyword volume, traffic estimates, and rankings. |
-| **Lead Intelligence** | Extracts buying-intent signals from raw prompt text and scores users by behavioral intent. |
-| **Admin RBAC Dashboard** | Granular, multi-tenant role-based access control with full administrative visibility. |
-| **AI Prompt Suggestions** | Uses OpenAI GPT to suggest follow-up prompts based on campaign history. |
+| Feature                         | Description                                                                                                           |
+| ------------------------------- | --------------------------------------------------------------------------------------------------------------------- |
+| **Multi-Provider Interception** | Captures live streams from ChatGPT, Claude, Perplexity, and Grok simultaneously via a Chrome Manifest V3 extension.   |
+| **Deterministic Tree Mapping**  | Every conversation is materialized into a stable `Prompt → Subquery → Site` tree using deterministic SHA-1 hashing.   |
+| **Campaign Versioning**         | Snapshot campaigns and "refire" them to track how AI-cited sites change over time.                                    |
+| **SEO Enrichment**              | Background queues (BullMQ) auto-enrich sites with SEMrush and Ahrefs keyword volume, traffic estimates, and rankings. |
+| **Lead Intelligence**           | Extracts buying-intent signals from raw prompt text and scores users by behavioral intent.                            |
+| **Admin RBAC Dashboard**        | Granular, multi-tenant role-based access control with full administrative visibility.                                 |
+| **AI Prompt Suggestions**       | Uses OpenAI GPT to suggest follow-up prompts based on campaign history.                                               |
 
 ---
 
@@ -65,29 +67,29 @@ IntentFlow is a **monorepo** containing three independently deployable surfaces 
 
 ### Surface Overview
 
-| Surface | Responsibility | Key Technologies |
-|---------|----------------|------------------|
-| **Extension** | Injects MAIN-world content scripts to intercept AI provider streams; side-panel UI for real-time visualization. | Chrome MV3, CRXJS, React |
-| **Backend** | Ingests raw events, materializes campaign trees, orchestrates enrichment jobs, enforces RBAC. | Express.js, Prisma, BullMQ |
-| **Web Dashboard** | Campaign graph exploration, analytics, admin controls, onboarding. | React 19, Vite, XYFlow, Recharts |
+| Surface           | Responsibility                                                                                                  | Key Technologies                 |
+| ----------------- | --------------------------------------------------------------------------------------------------------------- | -------------------------------- |
+| **Extension**     | Injects MAIN-world content scripts to intercept AI provider streams; side-panel UI for real-time visualization. | Chrome MV3, CRXJS, React         |
+| **Backend**       | Ingests raw events, materializes campaign trees, orchestrates enrichment jobs, enforces RBAC.                   | Express.js, Prisma, BullMQ       |
+| **Web Dashboard** | Campaign graph exploration, analytics, admin controls, onboarding.                                              | React 19, Vite, XYFlow, Recharts |
 
 ---
 
 ## Technology Stack
 
-| Layer | Technology |
-|-------|------------|
-| **Backend Runtime** | Node.js 20+, TypeScript |
-| **Web Framework** | Express.js 4 |
-| **Database** | PostgreSQL (via Prisma ORM) |
-| **Queue / Jobs** | BullMQ on Redis |
-| **Authentication** | JWT (access) + Refresh tokens (DB-backed) |
-| **Frontend** | React 19, Vite, Tailwind CSS, Shadcn UI / Radix UI |
-| **Visualization** | XYFlow (campaign trees), Recharts (analytics) |
-| **Extension Build** | Chrome MV3, CRXJS plugin, Vite |
-| **Validation** | Zod (DTO schema validation) |
-| **External APIs** | OpenAI GPT, SEMrush, Ahrefs |
-| **Package Manager** | pnpm (workspace-aware) |
+| Layer               | Technology                                         |
+| ------------------- | -------------------------------------------------- |
+| **Backend Runtime** | Node.js 20+, TypeScript                            |
+| **Web Framework**   | Express.js 4                                       |
+| **Database**        | PostgreSQL (via Prisma ORM)                        |
+| **Queue / Jobs**    | BullMQ on Redis                                    |
+| **Authentication**  | JWT (access) + Refresh tokens (DB-backed)          |
+| **Frontend**        | React 19, Vite, Tailwind CSS, Shadcn UI / Radix UI |
+| **Visualization**   | XYFlow (campaign trees), Recharts (analytics)      |
+| **Extension Build** | Chrome MV3, CRXJS plugin, Vite                     |
+| **Validation**      | Zod (DTO schema validation)                        |
+| **External APIs**   | OpenAI GPT, SEMrush, Ahrefs                        |
+| **Package Manager** | pnpm (workspace-aware)                             |
 
 ---
 
@@ -182,6 +184,7 @@ Every app exposes a single `@/*` (web, extension) or richer namespaced aliases (
 8. **Visualize**: The extension side-panel and web dashboard receive the updated tree in real time.
 
 ### Campaign Versioning & Refiring
+
 - **v1** is created automatically upon first ingestion.
 - Users can **refire** a campaign, creating a **v2** snapshot to compare how AI responses drift over time.
 
@@ -191,28 +194,29 @@ Every app exposes a single `@/*` (web, extension) or richer namespaced aliases (
 
 ### Core Entities
 
-| Table | Purpose |
-|-------|---------|
-| `User` | Platform users, auth credentials, app roles. |
-| `Tenant` | Organization/account boundary. |
-| `TenantMember` | Join table linking users to tenants with roles (owner/member). |
-| `Campaign` | An SEO campaign linked to a tenant. |
-| `CampaignVersion` | Point-in-time snapshot of a campaign. |
-| `CaptureSession` | One AI chat conversation. |
-| `CaptureTurn` | One prompt-response exchange within a session. |
-| `PromptNode` | **Self-referencing tree** node: prompt, subquery, site, or generated. |
-| `SemrushSnapshot` | Cached SEO data (24h TTL). |
-| `LeadSignal` | Extracted intent signals from a turn. |
+| Table             | Purpose                                                               |
+| ----------------- | --------------------------------------------------------------------- |
+| `User`            | Platform users, auth credentials, app roles.                          |
+| `Tenant`          | Organization/account boundary.                                        |
+| `TenantMember`    | Join table linking users to tenants with roles (owner/member).        |
+| `Campaign`        | An SEO campaign linked to a tenant.                                   |
+| `CampaignVersion` | Point-in-time snapshot of a campaign.                                 |
+| `CaptureSession`  | One AI chat conversation.                                             |
+| `CaptureTurn`     | One prompt-response exchange within a session.                        |
+| `PromptNode`      | **Self-referencing tree** node: prompt, subquery, site, or generated. |
+| `SemrushSnapshot` | Cached SEO data (24h TTL).                                            |
+| `LeadSignal`      | Extracted intent signals from a turn.                                 |
 
 ### The Campaign Tree (Adjacency List)
+
 The central data model is a self-referencing `PromptNode` tree:
 
-| Node Type | Parent | Example Content |
-|-----------|--------|-----------------|
-| `prompt` | `null` (root) | *"best SEO tools 2026"* |
-| `subquery` | `prompt` | *"top seo software"* |
-| `site` | `subquery` | `ahrefs.com` |
-| `generated` | `prompt` (sibling) | *"compare seo pricing"* |
+| Node Type   | Parent             | Example Content         |
+| ----------- | ------------------ | ----------------------- |
+| `prompt`    | `null` (root)      | _"best SEO tools 2026"_ |
+| `subquery`  | `prompt`           | _"top seo software"_    |
+| `site`      | `subquery`         | `ahrefs.com`            |
+| `generated` | `prompt` (sibling) | _"compare seo pricing"_ |
 
 All internal references use **deterministic SHA-1 hashes** (`provider + turn_id + query_key + site_name + url`) instead of random UUIDs to guarantee idempotency across multiple ingestion runs.
 
@@ -220,15 +224,15 @@ All internal references use **deterministic SHA-1 hashes** (`provider + turn_id 
 
 ## System Design Principles
 
-| Principle | Implementation |
-|-----------|----------------|
-| **N-Tier Layering** | Strict 4-layer backend: Routes → Controller → Service → Repository. Swapping the database only touches the Repository layer. |
-| **Multi-Tenancy** | Every record carries a `tenant_id`. Row-level security is enforced in the Repository layer; no tenant can access another's data. |
-| **Event-Driven Processing** | Heavy enrichment tasks (SEMrush, Ahrefs, NLP) are offloaded to BullMQ workers using the Producer-Consumer pattern. |
-| **Idempotency** | `ingestTurn()` checks `request_id` + `turn_exchange_id` before writing, preventing duplicates from network retries. |
-| **Caching** | SEMrush/Ahrefs results are cached in `SemrushSnapshot` with a 24-hour TTL to prevent expensive repeated API calls. |
-| **RBAC** | Dual-role system: **App Role** (`admin` vs `user`) and **Tenant Role** (`owner` vs `member`), enforced by middleware on every protected route. |
-| **DTO Validation** | All incoming API bodies are validated with Zod schemas before reaching controllers. |
+| Principle                   | Implementation                                                                                                                                 |
+| --------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
+| **N-Tier Layering**         | Strict 4-layer backend: Routes → Controller → Service → Repository. Swapping the database only touches the Repository layer.                   |
+| **Multi-Tenancy**           | Every record carries a `tenant_id`. Row-level security is enforced in the Repository layer; no tenant can access another's data.               |
+| **Event-Driven Processing** | Heavy enrichment tasks (SEMrush, Ahrefs, NLP) are offloaded to BullMQ workers using the Producer-Consumer pattern.                             |
+| **Idempotency**             | `ingestTurn()` checks `request_id` + `turn_exchange_id` before writing, preventing duplicates from network retries.                            |
+| **Caching**                 | SEMrush/Ahrefs results are cached in `SemrushSnapshot` with a 24-hour TTL to prevent expensive repeated API calls.                             |
+| **RBAC**                    | Dual-role system: **App Role** (`admin` vs `user`) and **Tenant Role** (`owner` vs `member`), enforced by middleware on every protected route. |
+| **DTO Validation**          | All incoming API bodies are validated with Zod schemas before reaching controllers.                                                            |
 
 ---
 
@@ -251,6 +255,7 @@ IntentFlow leverages TypeScript's full OOP capabilities:
 ## Getting Started
 
 ### Prerequisites
+
 - Node.js 20+
 - pnpm
 - PostgreSQL 15+
@@ -280,6 +285,7 @@ cd extension && npm run build  # Build, then load `extension/dist/` unpacked
 ```
 
 ### Development URLs
+
 - **Web Dashboard**: `http://localhost:5173`
 - **Backend API**: `http://localhost:3500`
 - **Extension**: Load `extension/dist/` as an unpacked extension in `chrome://extensions`.
@@ -288,22 +294,24 @@ cd extension && npm run build  # Build, then load `extension/dist/` unpacked
 
 ## Contributors
 
-| Name | Role | Key Contributions |
-|------|------|-------------------|
-| **Sibtain Ahmed Qureshi** | Project Lead & Architect | Monorepo structure, materialization engine, Prisma schema architecture |
-| **Abhishek Verma** | Strategy & Systems Design | Lead intelligence framework, system governance, RBAC security architecture |
-| **Amogha Raj Sandur** | DevOps & Quality Assurance | CI/CD alignment, refactoring, technical documentation standards |
-| **Mohammed Yaseen** | Full-Stack Engineering | Mock ecosystem, cross-surface sync, onboarding & analytics flows |
-| **Saksham** | Backend & Data Pipelines | SEMrush/Ahrefs bridges, BullMQ optimization, NLP intent extraction |
-| **Saumya** | Frontend & UX Engineering | XYFlow integration, Compact Tree Explorer, design system maintenance |
+| Name                      | Role                       | Key Contributions                                                          |
+| ------------------------- | -------------------------- | -------------------------------------------------------------------------- |
+| **Sibtain Ahmed Qureshi** | Project Lead & Architect   | Monorepo structure, materialization engine, Prisma schema architecture     |
+| **Abhishek Verma**        | Strategy & Systems Design  | Lead intelligence framework, system governance, RBAC security architecture |
+| **Amogha Raj Sandur**     | DevOps & Quality Assurance | CI/CD alignment, refactoring, technical documentation standards            |
+| **Mohammed Yaseen**       | Full-Stack Engineering     | Mock ecosystem, cross-surface sync, onboarding & analytics flows           |
+| **Saksham**               | Backend & Data Pipelines   | SEMrush/Ahrefs bridges, BullMQ optimization, NLP intent extraction         |
+| **Saumya**                | Frontend & UX Engineering  | XYFlow integration, Compact Tree Explorer, design system maintenance       |
 
 ---
+
 Live Deployment URLs:
 <br>
 1.Frontend: https://intentflow-frontend-production.up.railway.app
 <br>
 2.Backend: https://intentflow-backend-production.up.railway.app/api/auth/google/callback
 <br>
+
 <p align="center">
   <sub>© 2026 IntentFlow. Confidential Project Documentation.</sub>
 </p>
